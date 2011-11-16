@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+    <!--
+      Copyright (c) 2002 - AGF-AM
+    -->
+</head>
+
+<body bgcolor="white">
+<p>
+    Le package <code>protocol</code> contient les classes définissant le protocol
+    'workflow-job-protocol' (i.e. {@link com.agf.workflow.kernel.protocol.JobProtocol}) .
+</p>
+
+<hr/>
+<h4>Utilisation du package</h4>
+
+<p>N/A</p>
+
+<hr/>
+<h4>Extension</h4>
+
+<p>
+    Il faut implanter les 2 comportements du protocole : <code>Initiator</code>,
+    <code>Participant</code> .
+</p>
+
+<u>Exemple Initiateur</u>
+<pre>
+    private static class InitiatorImpl extends JobProtocolInitiator {
+
+    InitiatorImpl(JobRequest request) { super(request, new MyAID("participant-name")); }
+
+    protected void handleInform(MyACLMessage inform) {
+    JobAudit audit = (JobAudit) inform.getContentObject();
+    // Traite le resultat PRE ou MID ou POST...
+    }
+    }
+</pre>
+
+<u>Exemple Participant</u>
+<pre>
+    private class ParticipantImpl extends JobProtocolParticipant {
+
+    ParticipantImpl() { }
+
+    protected void executeJob(JobRequest request) {
+    // 1ere partie du traitement ....
+    sendAudit(new JobAudit(JobAudit.Type.MID));
+    // 2eme partie du traitement ....
+    }
+    }
+</pre>
+
+<hr/>
+<h4>Résumé des classes</h4>
+
+<p>
+    Liste :
+    <ul>
+        <li>{@link com.agf.workflow.kernel.protocol.JobProtocolInitiator} Définit le
+            comportement
+            demandant une requête.
+        </li>
+        <li>{@link com.agf.workflow.kernel.protocol.JobProtocolParticipant} Définit le
+            comportement
+            executant une requête.
+        </li>
+    </ul>
+
+</p>
+
+</body>
+</html>
+

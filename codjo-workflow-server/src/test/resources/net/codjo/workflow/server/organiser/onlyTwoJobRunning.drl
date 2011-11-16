@@ -1,0 +1,22 @@
+package net.codjo.workflow.server.organiser;
+import net.codjo.workflow.common.organiser.JobMock;
+import net.codjo.workflow.common.organiser.Job;
+import net.codjo.workflow.common.organiser.Job.State;
+
+rule "Only two RUNNING"
+when
+    job1: Job( state == State.NEW )
+    $job2: Job( state == State.RUNNING )
+    job3: Job( this != $job2, state == State.RUNNING )
+then
+    job1.setState(State.WAITING);
+    update(job1);
+end
+
+rule "Change NEW to RUNNING"
+when
+    job: Job( state == State.NEW )
+then
+    job.setState(State.RUNNING);
+    update(job);
+end

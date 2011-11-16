@@ -1,0 +1,166 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <!-- POM's layout - http://www.javaworld.com/javaworld/jw-05-2006/jw-0529-maven.html -->
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+     | POM Relationships
+     -->
+
+    <artifactId>codjo-workflow-server</artifactId>
+    <parent>
+        <groupId>net.codjo.workflow</groupId>
+        <artifactId>codjo-workflow</artifactId>
+        <version>1.77-SNAPSHOT</version>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.workflow</groupId>
+            <artifactId>codjo-workflow-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.workflow</groupId>
+            <artifactId>codjo-workflow-common</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.plugin</groupId>
+            <artifactId>codjo-plugin-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.sql</groupId>
+            <artifactId>codjo-sql-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.sql</groupId>
+            <artifactId>codjo-sql-server</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.agent</groupId>
+            <artifactId>codjo-agent</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.agent</groupId>
+            <artifactId>codjo-agent</artifactId>
+            <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.mad</groupId>
+            <artifactId>codjo-mad-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.mad</groupId>
+            <artifactId>codjo-mad-server</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.database</groupId>
+            <artifactId>codjo-database-api</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.security</groupId>
+            <artifactId>codjo-security-common</artifactId>
+            <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.security</groupId>
+            <artifactId>codjo-security-server</artifactId>
+            <classifier>tests</classifier>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.test</groupId>
+            <artifactId>codjo-test-common</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.database</groupId>
+            <artifactId>codjo-database-main</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.tokio</groupId>
+            <artifactId>codjo-tokio</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.datagen</groupId>
+            <artifactId>codjo-datagen</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.codjo.datagen</groupId>
+            <artifactId>codjo-datagen</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+        </dependency>
+        <dependency>
+            <!--TODO verifier besoin-->
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+        </dependency>
+        <dependency>
+            <!--TODO verifier besoin-->
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!--
+    | Project Information
+    -->
+
+    <name>Lib &gt; Workflow &gt; Server</name>
+
+    <!--
+    | Build Settings
+    -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>src/datagen/datagen.xml</file>
+                                    <type>xml</type>
+                                    <classifier>datagen</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

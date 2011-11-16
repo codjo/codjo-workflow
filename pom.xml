@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+     | POM Relationships
+     -->
+
+    <parent>
+        <groupId>net.codjo.pom</groupId>
+        <artifactId>codjo-pom-library</artifactId>
+        <version>SNAPSHOT</version>
+    </parent>
+    <groupId>net.codjo.workflow</groupId>
+    <artifactId>codjo-workflow</artifactId>
+    <version>1.77-SNAPSHOT</version>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.codjo.workflow</groupId>
+                <artifactId>codjo-workflow-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.codjo.workflow</groupId>
+                <artifactId>codjo-workflow-common</artifactId>
+                <classifier>tests</classifier>
+                <version>${project.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!--
+     | Build Settings
+     -->
+
+    <packaging>pom</packaging>
+    <modules>
+        <module>codjo-workflow-common</module>
+        <module>codjo-workflow-server</module>
+        <module>codjo-workflow-gui</module>
+    </modules>
+
+    <!--
+    | Project Information
+    -->
+
+    <name>Lib &gt; Workflow</name>
+    <description>Librairie permettant de reguler des traitements sur le serveur.</description>
+    <inceptionYear>2007</inceptionYear>
+
+    <!--
+    | Environment Information
+    -->
+
+    <scm>
+        <connection>scm:git:https://github.com/codjo/codjo-workflow.git</connection>
+        <developerConnection>scm:git:https://github.com/codjo/codjo-workflow.git</developerConnection>
+        <url>https://github.com/codjo/codjo-workflow</url>
+    </scm>
+
+</project>

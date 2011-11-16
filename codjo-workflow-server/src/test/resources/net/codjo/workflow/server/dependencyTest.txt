@@ -1,0 +1,94 @@
+net.codjo.workflow.server
+	-> net.codjo.workflow.common.message
+
+net.codjo.workflow.server.api
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.plugin.batch
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.common.schedule
+	-> net.codjo.workflow.common.util
+
+net.codjo.workflow.server.aspect
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.aspect
+	-> net.codjo.mad.server.handler
+	-> net.codjo.mad.server.handler.aspect
+	-> net.codjo.aspect
+	-> net.codjo.mad.server.handler
+	-> net.codjo.mad.server.handler.aspect
+	-> net.codjo.security.server.api
+	-> net.codjo.sql.server
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.server.api
+	-> org.exolab.castor.jdo
+
+net.codjo.workflow.server.audit
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.database.common.api
+	-> net.codjo.database.common.api.structure
+	-> net.codjo.datagen
+	-> net.codjo.sql.server
+	-> net.codjo.test.common
+	-> net.codjo.test.common.fixture
+	-> net.codjo.tokio
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.server
+
+net.codjo.workflow.server.handler
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.mad.server.handler.sql
+	-> net.codjo.mad.server.plugin
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.util
+	-> net.codjo.workflow.server.api
+
+net.codjo.workflow.server.leader
+	-> net.codjo.agent
+	-> net.codjo.agent.protocol
+	-> net.codjo.agent.test
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.server.api
+	-> net.codjo.workflow.server.audit
+	-> net.codjo.test.common.fixture
+    -> net.codjo.util.file
+
+
+net.codjo.workflow.server.organiser
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.test.common
+	-> net.codjo.test.common.matcher
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.organiser
+	-> net.codjo.workflow.server
+	-> net.codjo.workflow.server.audit
+	-> net.codjo.workflow.server.handler
+	-> net.codjo.workflow.server.leader
+	-> net.codjo.test.common.fixture
+    -> net.codjo.util.file
+
+	
+net.codjo.workflow.server.plugin
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.aspect
+	-> net.codjo.mad.server.handler
+	-> net.codjo.mad.server.handler.aspect
+	-> net.codjo.mad.server.plugin
+	-> net.codjo.plugin.common.session
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.server.api
+	-> net.codjo.workflow.server.audit
+	-> net.codjo.workflow.server.handler
+	-> net.codjo.workflow.server.organiser

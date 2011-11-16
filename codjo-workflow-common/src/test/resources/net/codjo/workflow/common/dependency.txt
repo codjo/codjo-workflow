@@ -1,0 +1,45 @@
+net.codjo.workflow.common
+
+net.codjo.workflow.common.batch
+	-> net.codjo.agent
+	-> net.codjo.plugin.batch
+	-> net.codjo.plugin.common
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.schedule
+
+net.codjo.workflow.common.message
+    -> net.codjo.agent
+
+net.codjo.workflow.common.organiser
+    -> net.codjo.workflow.common.message
+	-> com.thoughtworks.xstream
+	-> com.thoughtworks.xstream.converters
+	-> com.thoughtworks.xstream.io.xml
+	
+net.codjo.workflow.common.protocol
+	-> net.codjo.agent
+	-> net.codjo.agent.behaviour
+	-> net.codjo.agent.protocol
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.util
+	-> jade.core
+	-> jade.core.behaviours
+
+net.codjo.workflow.common.schedule
+	-> net.codjo.agent
+	-> net.codjo.agent.util
+	-> net.codjo.plugin.batch
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.common.subscribe
+	-> net.codjo.workflow.common.util
+
+net.codjo.workflow.common.subscribe
+	-> net.codjo.agent
+	-> net.codjo.agent.protocol
+	-> net.codjo.workflow.common.message
+
+net.codjo.workflow.common.util
+	-> net.codjo.agent
+	-> net.codjo.agent.protocol
+	-> net.codjo.workflow.common.message

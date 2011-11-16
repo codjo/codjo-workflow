@@ -1,0 +1,46 @@
+net.codjo.workflow.gui
+	-> net.codjo.agent
+	-> net.codjo.i18n.common
+	-> net.codjo.mad.gui
+	-> net.codjo.mad.gui.framework
+	-> net.codjo.mad.gui.i18n
+	-> net.codjo.security.common.api
+	-> net.codjo.test.common
+
+net.codjo.workflow.gui.plugin
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.mad.client.request
+	-> net.codjo.mad.gui.base
+	-> net.codjo.mad.gui.framework
+	-> net.codjo.mad.gui.request
+	-> net.codjo.security.common.api	
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.subscribe
+	-> net.codjo.workflow.gui
+
+net.codjo.workflow.gui.task
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.organiser
+	-> junit.extensions.jfcunit
+	
+net.codjo.workflow.gui.util
+	-> net.codjo.agent
+	-> net.codjo.mad.gui.framework
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.subscribe
+
+net.codjo.workflow.gui.wizard
+	-> net.codjo.agent.test
+	-> net.codjo.gui.toolkit
+	-> net.codjo.gui.toolkit.wizard
+	-> net.codjo.test.common
+	-> net.codjo.test.common.fixture
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.subscribe
+	-> net.codjo.workflow.gui
+	-> net.codjo.util.file

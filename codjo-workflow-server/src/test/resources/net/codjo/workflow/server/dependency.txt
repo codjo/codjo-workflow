@@ -1,0 +1,80 @@
+net.codjo.workflow.server.api
+	-> net.codjo.agent
+	-> net.codjo.agent.behaviour
+	-> net.codjo.agent.protocol
+	-> net.codjo.agent.util
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.protocol
+
+net.codjo.workflow.server.audit
+	-> net.codjo.agent
+	-> net.codjo.sql.server
+	-> net.codjo.workflow.common.message
+
+net.codjo.workflow.server.aspect
+	-> net.codjo.agent
+	-> net.codjo.aspect
+	-> net.codjo.mad.server.handler
+	-> net.codjo.mad.server.handler.aspect
+	-> net.codjo.security.common.api
+	-> net.codjo.security.server.api
+	-> net.codjo.sql.server
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.common.schedule
+	-> net.codjo.workflow.server.api
+	
+net.codjo.workflow.server.handler
+    -> net.codjo.agent
+	-> net.codjo.agent.util
+	-> net.codjo.mad.server.handler
+	-> net.codjo.mad.server.handler.aspect
+	-> net.codjo.mad.server.handler.sql
+	-> net.codjo.mad.server.plugin
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.organiser
+	-> net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.common.schedule
+	-> net.codjo.workflow.server.api
+	-> net.codjo.workflow.server.organiser
+	-> org.xml.sax
+
+net.codjo.workflow.server.leader
+	-> net.codjo.agent
+	-> net.codjo.agent.behaviour
+	-> net.codjo.agent.protocol
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.util
+	-> net.codjo.workflow.server.audit
+
+net.codjo.workflow.server.organiser
+	-> net.codjo.agent
+	-> net.codjo.agent.behaviour
+	-> net.codjo.agent.protocol
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.organiser
+	-> net.codjo.workflow.server.audit
+	-> net.codjo.workflow.server.leader
+	-> net.codjo.workflow.common.util	
+    -> org.drools
+	-> org.drools.compiler
+
+net.codjo.workflow.server.plugin
+	-> net.codjo.agent
+	-> net.codjo.mad.server.handler
+	-> net.codjo.mad.server.handler.aspect
+	-> net.codjo.mad.server.plugin
+	-> net.codjo.plugin.common.session
+	-> net.codjo.plugin.server
+	-> net.codjo.sql.server
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.organiser
+	-> net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.server.api
+	-> net.codjo.workflow.server.aspect
+	-> net.codjo.workflow.server.audit
+	-> net.codjo.workflow.server.handler
+	-> net.codjo.workflow.server.leader
+	-> net.codjo.workflow.server.organiser
+
+

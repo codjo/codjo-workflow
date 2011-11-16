@@ -1,0 +1,45 @@
+package net.codjo.workflow.server.organiser;
+import net.codjo.workflow.common.organiser.Job;
+import net.codjo.workflow.common.organiser.Job.State;
+import net.codjo.workflow.server.handler.HandlerJob;
+import org.apache.log4j.Logger;
+
+
+function void debug(String text) {
+    Logger.getLogger(RuleEngine.class).debug(text);
+}
+
+
+rule "One handler of the same user is already running"
+salience -100
+when
+    job: HandlerJob( state == State.NEW, $userId : userId )
+    HandlerJob( state == State.RUNNING, userId == $userId )
+then
+    debug("One handler of the same user is already running: " + job.getId() + "=>WAITING");
+    job.setState(State.WAITING);
+    update(job);
+end
+
+
+rule "One job (not an handler) is already running"
+salience -100
+when
+    job: Job( state == State.NEW, type != "handler" )
+    Job( state == State.RUNNING, type != "handler" )
+then
+    debug("One job (not an handler) is already running: " + job.getId() + "=>WAITING");
+    job.setState(State.WAITING);
+    update(job);
+end
+
+
+rule "New job starts running"
+salience -100
+when
+    job: Job( state == State.NEW )
+then
+    debug("New job starts running: " + job.getId() + "=>RUNNING");
+    job.setState(State.RUNNING);
+    update(job);
+end

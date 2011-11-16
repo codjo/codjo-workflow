@@ -1,0 +1,12 @@
+package net.codjo.workflow.server.organiser;
+import net.codjo.workflow.common.organiser.JobMock;
+import net.codjo.workflow.common.organiser.Job;
+import net.codjo.workflow.common.organiser.Job.State;
+
+rule "when job2 arrives, it throws exception"
+when
+    job: JobMock( id == "job2" )
+then
+    job.throwsException();
+    update(job);
+end

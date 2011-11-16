@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://datagen.xsd">
+    <!--
+     ATTENTION si vous modifiez ce fichier merci de maj le test
+     net.codjo.workflow.server.audit.AuditDaoTest
+    -->
+    <entity name="net.codjo.workflow.datagen.WorkflowLog" table="AP_WORKFLOW_LOG">
+        <description>Log de la couche workflow</description>
+
+        <feature>
+            <sql/>
+            <bean/>
+            <castor/>
+            <sql-index>
+                <idx type="primary-key" name-prefix="X1_" clustered="true"/>
+            </sql-index>
+            <doc-structure/>
+
+            <handler-sql id="selectAllWorkflowLog">
+                <attributes>
+                    <name>id</name>
+                    <name>requestType</name>
+                    <name>requestDate</name>
+                    <name>postAuditDate</name>
+                    <name>initiatorLogin</name>
+                    <name>discriminent</name>
+                    <name>preAuditStatus</name>
+                    <name>postAuditStatus</name>
+                </attributes>
+                <query factory="net.codjo.workflow.server.handler.SelectAllWorkflowLogQueryFactory"/>
+            </handler-sql>
+            <handler-select id="selectWorkflowLogById" type="By_Primary-Key"/>
+            <handler-requetor id="allWorkflow"/>
+            <handler-sql id="countWorkflowLog">
+                <attributes>
+                    <name>count</name>
+                </attributes>
+                <query><![CDATA[
+                    select count(1)
+                          from AP_WORKFLOW_LOG
+                                where REQUEST_DATE <= ?
+                ]]>
+                </query>
+                <arg>requestDate</arg>
+            </handler-sql>
+        </feature>
+
+        <primary-key>
+            <field name="id"/>
+        </primary-key>
+
+        <properties>
+            <field name="id" type="string">
+                <description>Identifiant de la JobRequest</description>
+                <comment>
+                    <!--TODO size ?-->
+                    Identifiant unique ? de taille ?
+                </comment>
+                <sql type="varchar" precision="50" required="true"/>
+            </field>
+            <field name="parentId" type="string">
+                <description>Identifiant de la JobRequest parent</description>
+                <comment>
+                    <!--TODO size ?-->
+                    Identifiant unique ? de taille ?
+                </comment>
+                <sql type="varchar" precision="50"/>
+            </field>
+            <field name="requestDate" type="java.sql.Timestamp">
+                <description>Date d'émission de la requete</description>
+                <sql type="timestamp" required="true"/>
+            </field>
+            <field name="initiatorLogin" type="string">
+                <description>Utilisateur à l'origine du message</description>
+                <sql type="varchar" precision="30"/>
+            </field>
+            <field name="requestType" type="string">
+                <description>Type de la requête</description>
+                <sql precision="64" required="true" type="varchar"/>
+            </field>
+            <field name="argument" type="string">
+                <description>Argument de la requête</description>
+                <sql type="text"/>
+            </field>
+
+            <!-- ********************************************************************************************
+              | Audit (PRE)
+            -->
+            <field name="preAuditDate" type="java.sql.Timestamp">
+                <description>Date d'émission de l'Audit (PRE)</description>
+                <sql type="timestamp"/>
+            </field>
+            <field name="preAuditArgument" type="string">
+                <description>Argument de l'Audit (PRE)</description>
+                <sql type="text"/>
+            </field>
+            <field name="preAuditStatus" type="string">
+                <description>Status du message Audit (PRE)</description>
+                <comment>
+                    Si le status n'est pas OK alors l'information sur l'anomalie
+                    est renseignée dans les deux champs 'auditAnomalyMessage' et 'auditAnomalyStackTrace'.
+                </comment>
+                <sql in='"OK", "WARNING", "ERROR"' precision="10" type="varchar"/>
+            </field>
+            <field name="preAuditAnomalyMessage" type="string">
+                <description>Detail de l'anomalie (PRE)</description>
+                <sql type="text"/>
+            </field>
+            <field name="preAuditAnomalyTrace" type="string">
+                <description>Stack trace de l'anomalie (PRE)</description>
+                <sql type="text"/>
+            </field>
+
+            <!-- ********************************************************************************************
+              | Audit (POST)
+            -->
+            <field name="postAuditDate" type="java.sql.Timestamp">
+                <description>Date d'émission de l'Audit (POST)</description>
+                <sql type="timestamp"/>
+            </field>
+            <field name="postAuditArgument" type="string">
+                <description>Argument de l'Audit (POST)</description>
+                <sql type="text"/>
+            </field>
+            <field name="postAuditStatus" type="string">
+                <description>Status du message Audit (POST)</description>
+                <comment>
+                    Si le status n'est pas OK alors l'information sur l'anomalie
+                    est renseignée dans les deux champs 'auditAnomalyMessage' et 'auditAnomalyStackTrace'.
+                </comment>
+                <sql in='"OK", "WARNING", "ERROR"' precision="10" type="varchar"/>
+            </field>
+            <field name="postAuditAnomalyMessage" type="string">
+                <description>Detail de l'anomalie (POST)</description>
+                <sql type="text"/>
+            </field>
+            <field name="postAuditAnomalyTrace" type="string">
+                <description>Stack trace de l'anomalie (POST)</description>
+                <sql type="text"/>
+            </field>
+
+            <field name="discriminent" type="string">
+                <description>Elément(s) discriminant(s) de la requête</description>
+                <sql precision="150" type="varchar"/>
+            </field>
+        </properties>
+    </entity>
+</entities>

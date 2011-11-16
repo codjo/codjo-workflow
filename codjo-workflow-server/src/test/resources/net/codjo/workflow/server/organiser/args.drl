@@ -1,0 +1,11 @@
+package net.codjo.workflow.server.organiser;
+import net.codjo.workflow.common.organiser.Job;
+import net.codjo.workflow.common.organiser.Job.State;
+
+rule "Change some jobs to RUNNING"
+when
+    job: Job( state == State.NEW, args["something"] == "THE Value" )
+then
+    job.setState(State.RUNNING);
+    update(job);
+end

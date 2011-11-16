@@ -1,0 +1,48 @@
+net.codjo.workflow.common
+
+net.codjo.workflow.common.batch
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.plugin.common
+	-> net.codjo.workflow.common.util
+
+net.codjo.workflow.common.message
+
+net.codjo.workflow.common.organiser
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+	
+net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.common.util
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.test.common
+	-> net.codjo.util.file
+	-> net.codjo.test.common.fixture
+	-> net.codjo.workflow.common.message
+
+net.codjo.workflow.common.schedule
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.plugin.batch
+	-> net.codjo.test.common
+	-> net.codjo.test.common.matcher
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.protocol
+	-> net.codjo.workflow.common.subscribe
+	-> net.codjo.workflow.common.util
+
+net.codjo.workflow.common.subscribe
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.test.common
+	-> net.codjo.workflow.common.message
+
+net.codjo.workflow.common.util
+	-> net.codjo.agent
+	-> net.codjo.agent.test
+	-> net.codjo.test.common.matcher
+	-> net.codjo.workflow.common.message
+	-> net.codjo.util.file
+	-> net.codjo.test.common.fixture
+

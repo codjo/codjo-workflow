@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Scenarii SYSTEM "http://scenarii.dtd">
+<Scenarii name="AuditDaoTest">
+    <Scenario id="saveRequest">
+        <input/>
+        <etalon>
+            <table name="AP_WORKFLOW_LOG">
+                <row id="simpleRequest">
+                    <field name="ID" value="request-125"/>
+                    <field name="PARENT_ID" value="request-124"/>
+                    <field name="REQUEST_DATE" value="TODAY"/>
+                    <field name="INITIATOR_LOGIN" value="crego"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                    <field name="ARGUMENT" value="file=myfile.txt"/>
+                    <field name="DISCRIMINENT" value="file=myfile.txt"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+    <Scenario id="saveRequestNoArguments">
+        <input/>
+        <etalon>
+            <table name="AP_WORKFLOW_LOG">
+                <row inheritId="simpleRequest">
+                    <field name="ARGUMENT"/>
+                    <field name="DISCRIMINENT"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+    <Scenario id="saveRequestMultipleLinesArguments">
+        <input/>
+        <etalon>
+            <table name="AP_WORKFLOW_LOG">
+
+                <row>
+                    <field name="ID" value="request-125"/>
+                    <field name="PARENT_ID" value="request-124"/>
+                    <field name="REQUEST_DATE" value="TODAY"/>
+                    <field name="INITIATOR_LOGIN" value="crego"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                    <field name="DISCRIMINENT" value="comment=nothing file=myfile.txt"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+    <Scenario id="saveRequestWithStringifier">
+        <input/>
+        <etalon>
+            <table name="AP_WORKFLOW_LOG">
+                <row>
+                    <field name="ID" value="request-126"/>
+                    <field name="PARENT_ID" value="request-124"/>
+                    <field name="REQUEST_DATE" value="TODAY"/>
+                    <field name="INITIATOR_LOGIN" value="crego"/>
+                    <field name="REQUEST_TYPE" value="broadcast"/>
+                    <field name="ARGUMENT" value="file=myfile.txt"/>
+                    <field name="DISCRIMINENT" value="file=myfile.txt"/>
+                </row>
+                <row>
+                    <field name="ID" value="request-125"/>
+                    <field name="PARENT_ID" value="request-124"/>
+                    <field name="REQUEST_DATE" value="TODAY"/>
+                    <field name="INITIATOR_LOGIN" value="crego"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                    <field name="ARGUMENT" value="comment=nothing"/>
+                    <field name="DISCRIMINENT" value="file=toto.txt"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+    <Scenario id="savePreAudit">
+        <input/>
+        <etalon>
+            <table name="AP_WORKFLOW_LOG">
+                <row id="simpleRequestWithPre" inheritId="simpleRequest">
+                    <field name="ARGUMENT"/>
+                    <field name="DISCRIMINENT"/>
+                    <field name="PRE_AUDIT_DATE" value="TODAY"/>
+                    <field name="PRE_AUDIT_ARGUMENT" value="importedTable=AP_MA_TABLE"/>
+                    <field name="PRE_AUDIT_STATUS" value="OK"/>
+                    <field name="PRE_AUDIT_ANOMALY_MESSAGE"/>
+                    <field name="PRE_AUDIT_ANOMALY_TRACE"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+    <Scenario id="savePreAuditWithWarning">
+        <input/>
+        <etalon>
+            <table name="AP_WORKFLOW_LOG">
+                <row inheritId="simpleRequestWithPre">
+                    <field name="PRE_AUDIT_STATUS" value="WARNING"/>
+                    <field name="PRE_AUDIT_ANOMALY_MESSAGE" value="message warning"/>
+                    <field name="PRE_AUDIT_ANOMALY_TRACE" value="description du warning"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+    <Scenario id="savePostAudit">
+        <input/>
+        <etalon>
+            <table name="AP_WORKFLOW_LOG">
+                <row inheritId="simpleRequest">
+                    <field name="ARGUMENT"/>
+                    <field name="DISCRIMINENT"/>
+                    <field name="POST_AUDIT_DATE" value="TODAY"/>
+                    <field name="POST_AUDIT_ARGUMENT" value="importedTable=AP_MA_TABLE"/>
+                    <field name="POST_AUDIT_STATUS" value="OK"/>
+                    <field name="POST_AUDIT_ANOMALY_MESSAGE"/>
+                    <field name="POST_AUDIT_ANOMALY_TRACE"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+    <Scenario id="deleteAudit">
+        <input>
+            <table name="AP_WORKFLOW_LOG">
+                <row>
+                    <field name="ID" value="001"/>
+                    <field name="REQUEST_DATE" value="2008-10-01"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                </row>
+                <row>
+                    <field name="ID" value="001"/>
+                    <field name="REQUEST_DATE" value="2008-11-01"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                </row>
+                <row>
+                    <field name="ID" value="001"/>
+                    <field name="REQUEST_DATE" value="2008-12-01"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                </row>
+                <row>
+                    <field name="ID" value="001"/>
+                    <field name="REQUEST_DATE" value="2009-01-01"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                </row>
+                <row>
+                    <field name="ID" value="001"/>
+                    <field name="REQUEST_DATE" value="2009-02-01"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                </row>
+            </table>
+        </input>
+        <etalon>
+            <table name="AP_WORKFLOW_LOG">
+                <row>
+                    <field name="ID" value="001"/>
+                    <field name="REQUEST_DATE" value="2009-01-01"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                </row>
+                <row>
+                    <field name="ID" value="001"/>
+                    <field name="REQUEST_DATE" value="2009-02-01"/>
+                    <field name="REQUEST_TYPE" value="import"/>
+                </row>
+            </table>
+        </etalon>
+    </Scenario>
+</Scenarii>

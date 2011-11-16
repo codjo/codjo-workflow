@@ -1,0 +1,13 @@
+package net.codjo.workflow.server.organiser;
+import net.codjo.workflow.common.organiser.JobMock;
+import net.codjo.workflow.common.organiser.Job;
+import net.codjo.workflow.common.organiser.Job.State;
+
+rule "Change NEW to RUNNING"
+salience 100
+when
+    job: Job( state == State.NEW )
+then
+    job.setState(State.RUNNING);
+    update(job);
+end

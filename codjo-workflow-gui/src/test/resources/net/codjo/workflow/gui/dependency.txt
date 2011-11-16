@@ -1,0 +1,44 @@
+net.codjo.workflow.gui.plugin
+	-> net.codjo.agent
+	-> net.codjo.agent.util
+	-> net.codjo.gui.toolkit
+	-> net.codjo.gui.toolkit.combo
+	-> net.codjo.gui.toolkit.util
+	-> net.codjo.gui.toolkit.waiting
+	-> net.codjo.i18n.common
+	-> net.codjo.mad.client.request
+	-> net.codjo.mad.gui.base
+	-> net.codjo.mad.gui.framework
+	-> net.codjo.mad.gui.i18n
+	-> net.codjo.mad.gui.request
+	-> net.codjo.mad.gui.request.event
+	-> net.codjo.mad.gui.request.wrapper
+	-> net.codjo.plugin.gui
+	-> net.codjo.plugin.common
+	-> net.codjo.security.common.api
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.schedule
+	-> net.codjo.workflow.common.subscribe
+	-> net.codjo.workflow.gui.task
+	-> net.codjo.workflow.gui.util
+
+net.codjo.workflow.gui.task
+	-> net.codjo.agent
+	-> net.codjo.agent.protocol
+	-> net.codjo.workflow.common.organiser
+	-> org.jdesktop.swingx
+	
+net.codjo.workflow.gui.util
+	-> net.codjo.agent
+	-> net.codjo.mad.gui.framework
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.subscribe
+
+net.codjo.workflow.gui.wizard
+	-> net.codjo.gui.toolkit
+	-> net.codjo.gui.toolkit.util
+	-> net.codjo.gui.toolkit.wizard
+	-> net.codjo.mad.gui.framework
+	-> net.codjo.workflow.common.message
+	-> net.codjo.workflow.common.subscribe
+	-> net.codjo.workflow.gui.util
