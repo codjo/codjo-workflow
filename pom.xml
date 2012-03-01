@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -8,7 +9,7 @@
 
     <parent>
         <groupId>net.codjo.pom</groupId>
-        <artifactId>codjo-pom-library</artifactId>
+        <artifactId>codjo-pom-external</artifactId>
         <version>SNAPSHOT</version>
     </parent>
     <groupId>net.codjo.workflow</groupId>
@@ -47,7 +48,7 @@
     -->
 
     <name>Lib &gt; Workflow</name>
-    <description>Librairie permettant de reguler des traitements sur le serveur.</description>
+    <description>Library used to setup/define workflow.</description>
     <inceptionYear>2007</inceptionYear>
 
     <!--

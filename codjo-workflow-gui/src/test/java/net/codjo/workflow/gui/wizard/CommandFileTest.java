@@ -4,12 +4,13 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package net.codjo.workflow.gui.wizard;
-import net.codjo.test.common.PathUtil;
-import net.codjo.test.common.fixture.DirectoryFixture;
-import net.codjo.util.file.FileUtil;
 import java.io.File;
 import java.io.IOException;
 import junit.framework.TestCase;
+import net.codjo.test.common.fixture.DirectoryFixture;
+import net.codjo.util.file.FileUtil;
+
+import static net.codjo.test.common.PathUtil.findTargetDirectory;
 /**
  * Classe de test de {@link net.codjo.workflow.gui.wizard.CommandFile}.
  */
@@ -17,9 +18,10 @@ public class CommandFileTest extends TestCase {
     private static final String UNKNOWN_COMMAND =
           "'commande' n'est pas reconnu en tant que commande interne\n"
           + "ou externe, un programme ex‚cutable ou un fichier de commandes.\n";
+    private DirectoryFixture fixture =
+          new DirectoryFixture(findTargetDirectory(CommandFileTest.class) + "/CommandFileTestTEMPO");
+    private File file = new File(fixture, "mycmd.cmd");
     private CommandFile commandFile;
-    private DirectoryFixture fixture;
-    private File file;
 
 
     public void test_execute_withoutArgument() throws Exception {
@@ -31,8 +33,7 @@ public class CommandFileTest extends TestCase {
     }
 
 
-    public void test_execute_withoutArgumentWithError()
-          throws Exception {
+    public void test_execute_withoutArgumentWithError() throws Exception {
         createCommandFile("commande inexistant");
 
         try {
@@ -119,19 +120,14 @@ public class CommandFileTest extends TestCase {
             fail();
         }
         catch (IllegalArgumentException exception) {
-            assertEquals("Fichier vide ou inexistant do\\not\\exist.cmd",
-                         exception.getMessage());
+            assertEquals("Fichier vide ou inexistant do\\not\\exist.cmd", exception.getMessage());
         }
     }
 
 
     @Override
     protected void setUp() throws Exception {
-        fixture =
-              new DirectoryFixture(PathUtil.findTargetDirectory(CommandFileTest.class)
-                                   + "/CommandFileTestTEMPO");
         fixture.doSetUp();
-        file = new File(fixture, "mycmd.cmd");
     }
 
 
