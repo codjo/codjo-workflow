@@ -7,6 +7,7 @@ package net.codjo.workflow.gui.wizard;
 import java.io.File;
 import java.io.IOException;
 import junit.framework.TestCase;
+import net.codjo.test.common.Directory.NotDeletedException;
 import net.codjo.test.common.fixture.DirectoryFixture;
 import net.codjo.util.file.FileUtil;
 
@@ -133,7 +134,13 @@ public class CommandFileTest extends TestCase {
 
     @Override
     protected void tearDown() throws Exception {
-        fixture.doTearDown();
+        try {
+            fixture.doTearDown();
+        }
+        catch (NotDeletedException e) {
+            // For spike purpose : Retry a new 10 times to delete the folder...
+            fixture.doTearDown();
+        }
     }
 
 
