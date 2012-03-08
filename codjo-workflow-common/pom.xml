@@ -26,6 +26,7 @@
             <groupId>net.codjo.agent</groupId>
             <artifactId>codjo-agent</artifactId>
             <classifier>tests</classifier>
+			<scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.codjo.test</groupId>

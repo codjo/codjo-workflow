@@ -27,7 +27,6 @@
                 <artifactId>codjo-workflow-common</artifactId>
                 <classifier>tests</classifier>
                 <version>${project.version}</version>
-                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
