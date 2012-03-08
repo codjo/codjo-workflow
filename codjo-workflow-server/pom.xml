@@ -141,6 +141,7 @@
             <!--TODO verifier besoin-->
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 
