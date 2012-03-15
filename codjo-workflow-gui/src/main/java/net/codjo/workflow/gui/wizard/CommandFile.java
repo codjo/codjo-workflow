@@ -13,9 +13,6 @@ import java.util.Arrays;
 import org.apache.log4j.Logger;
 /**
  * Executes un fichier de commande.
- *
- * @author $Author: lopezla $
- * @version $Revision: 1.2 $
  */
 public class CommandFile {
     private static final Logger LOGGER = Logger.getLogger(CommandFile.class);
@@ -97,11 +94,9 @@ public class CommandFile {
                               + outputReader.getMessage());
             if (proc.exitValue() != 0) {
                 throw new ExecuteException("Erreur lors de l'execution de " + cmdFile,
-                                           getProcessMessage(), proc.exitValue());
+                                           getProcessMessage(),
+                                           proc.exitValue());
             }
-        }
-        catch (ExecuteException exception) {
-            throw exception;
         }
         catch (IOException exception) {
             throw new ExecuteException(exception, getProcessMessage(), -1);
@@ -257,24 +252,20 @@ public class CommandFile {
                 Thread.sleep(timeout);
                 try {
                     if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName
-                                     + ")timeout tombé : Verification du process");
+                        LOGGER.debug("Process (" + processName + ")timeout tombé : Verification du process");
                     }
                     process.exitValue();
                     if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName
-                                     + ")timeout tombé : Process déja terminé");
+                        LOGGER.debug("Process (" + processName + ")timeout tombé : Process déja terminé");
                     }
                 }
                 catch (IllegalThreadStateException e) {
                     if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName
-                                     + ")timeout tombé : Destruction du process");
+                        LOGGER.debug("Process (" + processName + ")timeout tombé : Destruction du process");
                     }
                     process.destroy();
                     if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName
-                                     + ")timeout tombé : Process détruit");
+                        LOGGER.debug("Process (" + processName + ")timeout tombé : Process détruit");
                     }
                 }
             }
