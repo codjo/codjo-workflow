@@ -9,13 +9,15 @@ import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.uispec4j.Panel;
 import org.uispec4j.assertion.UISpecAssert;
 
 public class JobPanelTest {
-    private TaskManagerConfiguration taskManagerConfiguration = new TaskManagerConfiguration();
+    private TaskManagerConfiguration taskManagerConfiguration = createTaskManagerConfiguration();
     private Job job = createJob("import");
     private JobPanel jobPanel;
     private Panel panel;
@@ -171,6 +173,11 @@ public class JobPanelTest {
         UISpecAssert.assertTrue(panel.getTextBox("statusIcon").iconEquals(expectedIcon));
     }
 
+    private TaskManagerConfiguration createTaskManagerConfiguration() {
+           TaskManagerConfiguration configuration = new TaskManagerConfiguration();
+           configuration.setGuiContext(new WorkflowGuiContext());
+           return configuration;
+       }
 
     private JobMock createJob(String type) {
         JobMock jobMock = JobMock.create(type, State.NEW);

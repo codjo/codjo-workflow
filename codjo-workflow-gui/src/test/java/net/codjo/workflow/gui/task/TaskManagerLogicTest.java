@@ -1,12 +1,15 @@
 package net.codjo.workflow.gui.task;
-import net.codjo.workflow.common.organiser.Job;
-import net.codjo.workflow.common.organiser.Job.State;
-import net.codjo.workflow.common.organiser.JobMock;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import junit.framework.Assert;
+import net.codjo.i18n.common.Language;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
+import net.codjo.workflow.common.organiser.Job;
+import net.codjo.workflow.common.organiser.Job.State;
+import net.codjo.workflow.common.organiser.JobMock;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.uispec4j.Window;
@@ -19,52 +22,8 @@ public class TaskManagerLogicTest {
 
     @Before
     public void setUp() throws Exception {
-        taskManagerConfiguration = new TaskManagerConfiguration();
+        taskManagerConfiguration = createTaskManagerConfiguration();
         taskManagerConfiguration.setUserLogin("MyLogin");
-    }
-
-
-    public static void main(String[] args) throws ParseException {
-        System.setProperty("sun.awt.noerasebackground", "true");
-
-        TaskManagerListModel taskManagerModel = new TaskManagerListModel(5);
-
-        TaskManagerConfiguration configuration = new TaskManagerConfiguration();
-        configuration.setUserLogin("user_tr");
-        TaskManagerGui gui = new TaskManagerLogic(configuration, taskManagerModel).getGui();
-        gui.setLocationRelativeTo(null);
-        gui.setVisible(true);
-
-        Job job;
-        Calendar cal = GregorianCalendar.getInstance();
-
-        job = createJob(0, State.DONE);
-        job.setDate(cal.getTime());
-        job.setInitiator("plop");
-        taskManagerModel.jobReceived(job);
-
-        cal.add(Calendar.MINUTE, 10);
-        job = createJob(1, State.FAILURE);
-        job.setErrorMessage("NullPointerException\nimpossible de trouver la base de données...");
-        job.setDate(cal.getTime());
-        taskManagerModel.jobReceived(job);
-
-        cal.add(Calendar.SECOND, 10);
-        job = createJob(2, State.RUNNING);
-        job.setDate(cal.getTime());
-        job.setDescription("description");
-        taskManagerModel.jobReceived(job);
-
-        cal.add(Calendar.HOUR, 1);
-        job = createJob(3, State.WAITING);
-        job.setDate(cal.getTime());
-        job.setInitiator("plop");
-        taskManagerModel.jobReceived(job);
-
-        cal.add(Calendar.MINUTE, 10);
-        job = createJob(4, State.WAITING);
-        job.setDate(cal.getTime());
-        taskManagerModel.jobReceived(job);
     }
 
 
@@ -117,6 +76,13 @@ public class TaskManagerLogicTest {
     }
 
 
+    private static TaskManagerConfiguration createTaskManagerConfiguration() {
+        TaskManagerConfiguration configuration = new TaskManagerConfiguration();
+        configuration.setGuiContext(new WorkflowGuiContext());
+        return configuration;
+    }
+
+
     private static Job createJob(int jobIndex, State state) {
         JobMock job1 = JobMock.create(String.format("jobID%s", jobIndex),
                                       String.format("Job %s", jobIndex),
@@ -125,5 +91,51 @@ public class TaskManagerLogicTest {
         job1.setInitiator("user_tr");
         job1.setDescription("description");
         return job1;
+    }
+
+    
+
+    public static void main(String[] args) throws ParseException {
+        System.setProperty("sun.awt.noerasebackground", "true");
+
+        TaskManagerListModel taskManagerModel = new TaskManagerListModel(5);
+
+        TaskManagerConfiguration configuration = TaskManagerLogicTest.createTaskManagerConfiguration();
+        InternationalizationUtil.retrieveTranslationNotifier(configuration.getGuiContext()).setLanguage(Language.EN);
+        configuration.setUserLogin("user_tr");
+        TaskManagerGui gui = new TaskManagerLogic(configuration, taskManagerModel).getGui();
+        gui.setLocationRelativeTo(null);
+        gui.setVisible(true);
+
+        Job job;
+        Calendar cal = GregorianCalendar.getInstance();
+
+        job = createJob(0, State.DONE);
+        job.setDate(cal.getTime());
+        job.setInitiator("plop");
+        taskManagerModel.jobReceived(job);
+
+        cal.add(Calendar.MINUTE, 10);
+        job = createJob(1, State.FAILURE);
+        job.setErrorMessage("NullPointerException\nimpossible de trouver la base de données...");
+        job.setDate(cal.getTime());
+        taskManagerModel.jobReceived(job);
+
+        cal.add(Calendar.SECOND, 10);
+        job = createJob(2, State.RUNNING);
+        job.setDate(cal.getTime());
+        job.setDescription("description");
+        taskManagerModel.jobReceived(job);
+
+        cal.add(Calendar.HOUR, 1);
+        job = createJob(3, State.WAITING);
+        job.setDate(cal.getTime());
+        job.setInitiator("plop");
+        taskManagerModel.jobReceived(job);
+
+        cal.add(Calendar.MINUTE, 10);
+        job = createJob(4, State.WAITING);
+        job.setDate(cal.getTime());
+        taskManagerModel.jobReceived(job);
     }
 }

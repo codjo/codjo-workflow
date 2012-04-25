@@ -3,9 +3,6 @@
   <splitpane id="c6b69" binding="content">
     <constraints>
       <xy x="75" y="19" width="488" height="327"/>
-      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
-        <preferred-size width="200" height="200"/>
-      </grid>
     </constraints>
     <properties>
       <continuousLayout value="true"/>
@@ -13,7 +10,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="c6d6f" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="c6d6f" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <splitpane position="right"/>
@@ -21,38 +18,45 @@
         <properties/>
         <border type="none"/>
         <children>
-          <scrollpane id="c0639">
-            <constraints>
-              <xy x="0" y="0" width="488" height="156"/>
-              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
-            </constraints>
-            <properties/>
-            <border type="etched" title="Erreurs internes"/>
-            <children>
-              <component id="785e" class="javax.swing.JTextArea" binding="errorArea">
-                <constraints/>
-                <properties>
-                  <editable value="false"/>
-                  <rows value="4"/>
-                </properties>
-              </component>
-            </children>
-          </scrollpane>
           <hspacer id="ac324">
             <constraints>
-              <xy x="0" y="167" width="420" height="11"/>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
           <component id="1d16" class="javax.swing.JButton" binding="closeButton">
             <constraints>
-              <xy x="420" y="161" width="68" height="24"/>
-              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1"/>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Fermer"/>
             </properties>
           </component>
+          <grid id="2b107" binding="internalErrorsPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+            <border type="etched" title="Erreurs internes"/>
+            <children>
+              <scrollpane id="c0639">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="785e" class="javax.swing.JTextArea" binding="errorArea">
+                    <constraints/>
+                    <properties>
+                      <editable value="false"/>
+                      <rows value="4"/>
+                    </properties>
+                  </component>
+                </children>
+              </scrollpane>
+            </children>
+          </grid>
         </children>
       </grid>
       <splitpane id="3fbd5">
@@ -61,11 +65,11 @@
         </constraints>
         <properties>
           <continuousLayout value="true"/>
-          <dividerLocation value="100"/>
+          <dividerLocation value="150"/>
         </properties>
         <border type="none"/>
         <children>
-          <grid id="71ff" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="71ff" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <splitpane position="right"/>
@@ -73,37 +77,74 @@
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="bba0f" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="bba0f" binding="detailRequestPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <xy x="0" y="0" width="378" height="76"/>
-                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="etched" title="Détail de la requête"/>
                 <children>
-                  <component id="542b" class="javax.swing.JTextArea" binding="requestDetail">
+                  <scrollpane id="9068e">
                     <constraints>
-                      <xy x="6" y="20" width="366" height="50"/>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3">
-                        <preferred-size width="150" height="50"/>
-                      </grid>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
-                    <properties>
-                      <editable value="false"/>
-                    </properties>
-                  </component>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="542b" class="javax.swing.JTextArea" binding="requestDetail">
+                        <constraints/>
+                        <properties>
+                          <editable value="false"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
                 </children>
               </grid>
-              <scrollpane id="83405">
+              <grid id="9a2e2" binding="auditMessagePanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <xy x="0" y="81" width="378" height="51"/>
-                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3"/>
+                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="etched" title="Messages d'audit"/>
                 <children>
-                  <component id="47898" class="javax.swing.JTable" binding="auditTable">
+                  <scrollpane id="83405">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <component id="47898" class="javax.swing.JTable" binding="auditTable">
+                        <constraints/>
+                        <properties>
+                          <autoResizeMode value="0"/>
+                        </properties>
+                      </component>
+                    </children>
+                  </scrollpane>
+                </children>
+              </grid>
+            </children>
+          </grid>
+          <grid id="8d0a6" binding="requestPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties/>
+            <border type="etched" title="Requêtes"/>
+            <children>
+              <scrollpane id="beb1d">
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="3c201" class="javax.swing.JTree" binding="requestTree">
                     <constraints/>
                     <properties/>
                   </component>
@@ -111,19 +152,6 @@
               </scrollpane>
             </children>
           </grid>
-          <scrollpane id="beb1d">
-            <constraints>
-              <splitpane position="left"/>
-            </constraints>
-            <properties/>
-            <border type="etched" title="Requêtes"/>
-            <children>
-              <component id="3c201" class="javax.swing.JTree" binding="requestTree">
-                <constraints/>
-                <properties/>
-              </component>
-            </children>
-          </scrollpane>
         </children>
       </splitpane>
     </children>

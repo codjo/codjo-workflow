@@ -22,7 +22,7 @@ class ConsoleAction extends AbstractGuiAction {
 
     public void actionPerformed(ActionEvent event) {
         ConsoleGui gui = new ConsoleGui();
-        final ConsoleLogic consoleLogic = new ConsoleLogic(gui);
+        final ConsoleLogic consoleLogic = new ConsoleLogic(getGuiContext(), gui);
 
         try {
             JobListenerAgentUtil.createGuiAgent(getGuiContext(), gui,

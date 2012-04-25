@@ -1,16 +1,18 @@
 package net.codjo.workflow.gui.task;
-import net.codjo.workflow.common.organiser.Job;
-import net.codjo.workflow.common.organiser.Job.State;
-import net.codjo.workflow.common.organiser.JobMock;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import net.codjo.workflow.common.organiser.Job;
+import net.codjo.workflow.common.organiser.Job.State;
+import net.codjo.workflow.common.organiser.JobMock;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.junit.Test;
 import org.uispec4j.Panel;
 import org.uispec4j.Window;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 /**
  *
  */
@@ -18,7 +20,7 @@ public class TaskManagerGuiTest {
 
     @Test
     public void test_alwaysOnTop() throws Exception {
-        assertTrue(new TaskManagerGui(new TaskManagerConfiguration(),
+        assertTrue(new TaskManagerGui(createTaskManagerConfiguration(),
                                       new DefaultListModel(),
                                       new DefaultListModel(),
                                       new DefaultListModel()).isAlwaysOnTop());
@@ -39,7 +41,7 @@ public class TaskManagerGuiTest {
         doneJobsModel.addElement(createJob("segmentationDone"));
         doneJobsModel.addElement(createJob("segmentationDone"));
 
-        TaskManagerConfiguration configuration = new TaskManagerConfiguration();
+        TaskManagerConfiguration configuration = createTaskManagerConfiguration();
         configuration.setUserLogin("MyLogin");
         TaskManagerGui taskManagerGui = new TaskManagerGui(configuration,
                                                            waitingJobsModel,
@@ -59,14 +61,20 @@ public class TaskManagerGuiTest {
 
     @Test
     public void test_addToolBarButton() throws Exception {
-
-        TaskManagerGui managerGui = new TaskManagerGui(new TaskManagerConfiguration(),
+        TaskManagerGui managerGui = new TaskManagerGui(createTaskManagerConfiguration(),
                                                        new TaskManagerListModel(5));
 
         JButton button = new JButton("mon bouton");
         button.setName("myButton");
-        managerGui.addToolBarButton(button);
+        managerGui.addToolBarButton(button, null);
         new Window(managerGui).getPanel("actionPanel").getButton("myButton");
+    }
+
+
+    private TaskManagerConfiguration createTaskManagerConfiguration() {
+        TaskManagerConfiguration configuration = new TaskManagerConfiguration();
+        configuration.setGuiContext(new WorkflowGuiContext());
+        return configuration;
     }
 
 

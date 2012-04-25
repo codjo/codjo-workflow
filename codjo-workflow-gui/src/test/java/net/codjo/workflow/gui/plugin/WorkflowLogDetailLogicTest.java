@@ -5,6 +5,7 @@ import net.codjo.mad.client.request.MadServerFixture;
 import net.codjo.mad.client.request.Row;
 import net.codjo.mad.gui.framework.DefaultGuiContext;
 import net.codjo.mad.gui.request.DetailDataSource;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.uispec4j.TextBox;
 import org.uispec4j.UISpecTestCase;
 import org.uispec4j.Window;
@@ -84,7 +85,7 @@ public class WorkflowLogDetailLogicTest extends UISpecTestCase {
 
 
     public DetailDataSource createReadOnlyDetailDataSource() {
-        DetailDataSource dataSource = new DetailDataSource(new DefaultGuiContext());
+        DetailDataSource dataSource = new DetailDataSource(new WorkflowGuiContext());
         dataSource.setLoadFactoryId("selectById");
         dataSource.setSelector(new FieldsList("id", "my-id-value"));
         return dataSource;

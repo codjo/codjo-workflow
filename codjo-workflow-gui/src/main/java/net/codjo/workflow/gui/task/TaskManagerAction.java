@@ -6,6 +6,9 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingUtilities;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.mad.gui.framework.GuiContext;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
 /**
  *
  */
@@ -15,7 +18,8 @@ public class TaskManagerAction extends AbstractAction {
     private TaskManagerGui taskManagerGui;
 
 
-    public TaskManagerAction(TaskManagerConfiguration configuration, TaskManagerListModel listModel) {
+    public TaskManagerAction(TaskManagerConfiguration configuration,
+                             TaskManagerListModel listModel) {
         this.configuration = configuration;
         this.listModel = listModel;
 

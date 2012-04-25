@@ -5,16 +5,16 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import javax.swing.DefaultListModel;
+import net.codjo.workflow.gui.WorkflowGuiContext;
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
 /**
  *
  */
-@Ignore("Incompatibilité entre le robot et les tests UISpec")
 public class TaskManagerGuiIgnoredTest {
     private Robot robot;
 
@@ -29,7 +29,7 @@ public class TaskManagerGuiIgnoredTest {
 
     @Test
     public void test_moveWindow() throws Exception {
-        TaskManagerGui managerGui = new TaskManagerGui(new TaskManagerConfiguration(),
+        TaskManagerGui managerGui = new TaskManagerGui(createTaskManagerConfiguration(),
                                                        new DefaultListModel(),
                                                        new DefaultListModel(), new DefaultListModel());
         managerGui.setVisible(true);
@@ -48,7 +48,7 @@ public class TaskManagerGuiIgnoredTest {
 
     @Test
     public void test_resizeWindow() throws Exception {
-        TaskManagerGui managerGui = new TaskManagerGui(new TaskManagerConfiguration(),
+        TaskManagerGui managerGui = new TaskManagerGui(createTaskManagerConfiguration(),
                                                        new DefaultListModel(),
                                                        new DefaultListModel(), new DefaultListModel());
         managerGui.setVisible(true);
@@ -69,7 +69,7 @@ public class TaskManagerGuiIgnoredTest {
 
     @Test
     public void test_hideWindow() throws Exception {
-        TaskManagerGui managerGui = new TaskManagerGui(new TaskManagerConfiguration(),
+        TaskManagerGui managerGui = new TaskManagerGui(createTaskManagerConfiguration(),
                                                        new DefaultListModel(),
                                                        new DefaultListModel(), new DefaultListModel());
         managerGui.setVisible(true);
@@ -89,6 +89,13 @@ public class TaskManagerGuiIgnoredTest {
         finally {
             managerGui.dispose();
         }
+    }
+
+
+    private TaskManagerConfiguration createTaskManagerConfiguration() {
+        TaskManagerConfiguration configuration = new TaskManagerConfiguration();
+        configuration.setGuiContext(new WorkflowGuiContext());
+        return configuration;
     }
 
 

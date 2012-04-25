@@ -21,6 +21,10 @@ net.codjo.workflow.gui.plugin
 	-> net.codjo.workflow.gui
 
 net.codjo.workflow.gui.task
+	-> net.codjo.workflow.gui
+	-> net.codjo.i18n.common
+	-> net.codjo.i18n.gui
+	-> net.codjo.mad.gui.i18n
 	-> net.codjo.agent
 	-> net.codjo.agent.test
 	-> net.codjo.test.common
