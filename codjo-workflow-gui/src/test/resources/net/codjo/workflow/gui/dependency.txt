@@ -46,3 +46,6 @@ net.codjo.workflow.gui.wizard
 	-> net.codjo.workflow.common.message
 	-> net.codjo.workflow.common.subscribe
 	-> net.codjo.workflow.gui.util
+	-> net.codjo.mad.gui.i18n
+	-> net.codjo.i18n.common
+	-> net.codjo.i18n.gui

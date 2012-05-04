@@ -32,7 +32,7 @@ public class WizardAction extends AbstractGuiAction {
     public void actionPerformed(ActionEvent event) {
         try {
             WizardWindow wizardWindow =
-                  new WizardWindow(title, wizardBuilder.createWizard(), wizardImage);
+                  new WizardWindow(getGuiContext(), title, wizardBuilder.createWizard(), wizardImage);
             JobListenerAgentUtil.createGuiAgent(getGuiContext(), wizardWindow,
                                                 wizardWindow.getFinalStep().getEventHandler());
         }

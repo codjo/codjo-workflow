@@ -8,6 +8,7 @@ import net.codjo.gui.toolkit.wizard.Step;
 import net.codjo.gui.toolkit.wizard.StepPanel;
 import net.codjo.gui.toolkit.wizard.Wizard;
 import javax.swing.ImageIcon;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.uispec4j.UISpecTestCase;
 import org.uispec4j.Window;
 /**
@@ -26,7 +27,8 @@ public class WizardWindowTest extends UISpecTestCase {
     protected void setUp() throws Exception {
         firstStep = new StepPanelMock(FIRST_STEP);
         finalStep = new StepPanelMock(FINAL_STEP);
-        gui = new WizardWindow("Assistant diffusion",
+        gui = new WizardWindow(new WorkflowGuiContext(),
+                               "Assistant diffusion",
                                new WizardBuilderMock().createWizard(),
                                new ImageIcon(getClass().getResource("started.png")));
         window = new Window(gui);
@@ -40,6 +42,7 @@ public class WizardWindowTest extends UISpecTestCase {
 
     public void test_gotoFinalStep() throws Exception {
         window.getButton("WizardPanel.applyButton").click();
+        Thread.sleep(100);
         assertEquals(FINAL_STEP, window.findSwingComponent(Step.class).getName());
     }
 
