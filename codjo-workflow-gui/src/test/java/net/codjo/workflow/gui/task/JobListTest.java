@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import junit.framework.TestCase;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.junit.Test;
 import org.uispec4j.Panel;
 import org.uispec4j.assertion.UISpecAssert;
@@ -19,6 +20,7 @@ public class JobListTest extends TestCase {
         DefaultListModel listModel = new DefaultListModel();
 
         TaskManagerConfiguration configuration = new TaskManagerConfiguration();
+        configuration.setGuiContext(new WorkflowGuiContext());
         configuration.setUserLogin("MyLogin");
         JobList jobList = new JobList(configuration,
                                       "testPanel",

@@ -50,9 +50,11 @@ public abstract class GuiAgentActionTestCase extends TestCase {
     }
 
 
+    @Override
     protected void setUp() throws Exception {
         desktopPane = new JDesktopPane();
-        guiContext = new DefaultGuiContext(desktopPane);
+        guiContext = new WorkflowGuiContext();
+        guiContext.setDesktopPane(desktopPane);
         guiContext.setUser(new UserMock().mockIsAllowedTo(true));
 
         action = createAction();

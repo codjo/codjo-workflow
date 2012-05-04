@@ -4,6 +4,15 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package net.codjo.workflow.gui.plugin;
+import java.awt.Component;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.JTree;
+import javax.swing.text.JTextComponent;
 import net.codjo.agent.AclMessage;
 import net.codjo.test.common.GuiUtil;
 import net.codjo.workflow.common.message.Arguments;
@@ -11,12 +20,7 @@ import net.codjo.workflow.common.message.JobAudit;
 import net.codjo.workflow.common.message.JobEvent;
 import net.codjo.workflow.common.message.JobRequest;
 import net.codjo.workflow.common.subscribe.ProtocolErrorEvent;
-import java.awt.Component;
-import javax.swing.JButton;
-import javax.swing.JDesktopPane;
-import javax.swing.JTable;
-import javax.swing.JTree;
-import javax.swing.text.JTextComponent;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.uispec4j.Table;
 import org.uispec4j.UISpecTestCase;
 /**
@@ -27,9 +31,10 @@ public class ConsoleLogicTest extends UISpecTestCase {
     private ConsoleLogic logic;
 
 
+    @Override
     protected void setUp() throws Exception {
         gui = new ConsoleGui();
-        logic = new ConsoleLogic(gui);
+        logic = new ConsoleLogic(new WorkflowGuiContext(), gui);
     }
 
 
@@ -151,7 +156,7 @@ public class ConsoleLogicTest extends UISpecTestCase {
 
 
     public void test_closeButton() throws Exception {
-        logic = new ConsoleLogic(gui);
+        logic = new ConsoleLogic(new WorkflowGuiContext(), gui);
 
         JDesktopPane desktopPane = new JDesktopPane();
         desktopPane.add(gui);
@@ -220,5 +225,47 @@ public class ConsoleLogicTest extends UISpecTestCase {
         Component component = GuiUtil.findByName(name, gui.getContent());
         assertNotNull(component);
         return component;
+    }
+
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Test ConsoleLogic");
+        ConsoleLogic logic = new ConsoleLogic(new WorkflowGuiContext(), new ConsoleGui());
+        frame.setContentPane(logic.gui.getContentPane());
+        frame.pack();
+        frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                System.exit(0);
+            }
+        });
+
+        JobRequest request = new JobRequest();
+        request.setId("job-1");
+        request.setType("import");
+        logic.getEventHandler().receive(new JobEvent(request));
+
+        request = new JobRequest();
+        request.setId("job-2");
+        request.setType("export");
+        logic.getEventHandler().receive(new JobEvent(request));
+
+        JobAudit audit = new JobAudit(JobAudit.Type.PRE);
+        audit.setRequestId("job-1");
+        logic.getEventHandler().receive(new JobEvent(audit));
+
+        audit = new JobAudit(JobAudit.Type.MID);
+        audit.setRequestId("job-1");
+        logic.getEventHandler().receive(new JobEvent(audit));
+
+        audit = new JobAudit(JobAudit.Type.MID);
+        audit.setRequestId("job-1");
+        audit.setErrorMessage("error message");
+        logic.getEventHandler().receive(new JobEvent(audit));
+
+        audit = new JobAudit(JobAudit.Type.POST);
+        audit.setRequestId("job-1");
+        logic.getEventHandler().receive(new JobEvent(audit));
     }
 }

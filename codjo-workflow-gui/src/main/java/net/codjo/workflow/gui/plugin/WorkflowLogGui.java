@@ -1,22 +1,26 @@
 package net.codjo.workflow.gui.plugin;
-import net.codjo.gui.toolkit.HelpButton;
-import net.codjo.gui.toolkit.waiting.WaitingPanel;
-import net.codjo.mad.client.request.RequestException;
-import net.codjo.mad.gui.framework.GuiContext;
-import net.codjo.mad.gui.request.Column;
-import net.codjo.mad.gui.request.Preference;
-import net.codjo.mad.gui.request.PreferenceFactory;
-import net.codjo.mad.gui.request.RequestTable;
-import net.codjo.mad.gui.request.RequestToolBar;
-import net.codjo.workflow.gui.plugin.TableFilterPanel.FilterType;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
+import net.codjo.gui.toolkit.HelpButton;
+import net.codjo.gui.toolkit.waiting.WaitingPanel;
+import net.codjo.i18n.gui.InternationalizableContainer;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.mad.client.request.RequestException;
+import net.codjo.mad.gui.framework.GuiContext;
+import net.codjo.mad.gui.i18n.InternationalizableRequestTable;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
+import net.codjo.mad.gui.request.Column;
+import net.codjo.mad.gui.request.Preference;
+import net.codjo.mad.gui.request.PreferenceFactory;
+import net.codjo.mad.gui.request.RequestTable;
+import net.codjo.mad.gui.request.RequestToolBar;
+import net.codjo.workflow.gui.plugin.TableFilterPanel.FilterType;
 
-class WorkflowLogGui extends JInternalFrame {
+class WorkflowLogGui extends JInternalFrame implements InternationalizableContainer {
     private final WaitingPanel waitingPanel = new WaitingPanel();
     private final GuiContext context;
     private final TableFilterPanel tableFilterPanel;
@@ -43,16 +47,26 @@ class WorkflowLogGui extends JInternalFrame {
         helpButton.setHelpUrl(
               "http://wp-confluence/confluence/display/framework/Guide+Utilisateur+IHM+de+agf-workflow");
 
-        tableFilterPanel = new TableFilterPanel(workflowLogList);
-        tableFilterPanel.addFilter("Type", "requestType", FilterType.TEXT);
-        tableFilterPanel.addFilter("Discriminant", "discriminent", FilterType.TEXT, 100);
-        tableFilterPanel.addFilter("Date de début", "requestDate", FilterType.DATE);
-        tableFilterPanel.addFilter("Initiateur", "initiatorLogin", FilterType.TEXT);
+        tableFilterPanel = new TableFilterPanel(context, workflowLogList);
+        tableFilterPanel.addFilter("WorkflowList.requestType", "requestType", FilterType.TEXT);
+        tableFilterPanel.addFilter("WorkflowList.discriminent", "discriminent", FilterType.TEXT, 100);
+        tableFilterPanel.addFilter("WorkflowList.requestDate", "requestDate", FilterType.DATE);
+        tableFilterPanel.addFilter("WorkflowList.initiatorLogin", "initiatorLogin", FilterType.TEXT);
 
         String[] defaultStatus = {"ERROR", "WARNING", "OK"};
-        tableFilterPanel.addFilter("Statut initial", "preAuditStatus", FilterType.TEXT, defaultStatus);
-        tableFilterPanel.addFilter("Statut final", "postAuditStatus", FilterType.TEXT, defaultStatus);
+        tableFilterPanel.addFilter("WorkflowList.preAuditStatus", "preAuditStatus", FilterType.TEXT, defaultStatus);
+        tableFilterPanel.addFilter("WorkflowList.postAuditStatus", "postAuditStatus", FilterType.TEXT, defaultStatus);
         filterPanel.add(tableFilterPanel);
+
+        TranslationNotifier translationNotifier = InternationalizationUtil.retrieveTranslationNotifier(context);
+        translationNotifier.addInternationalizableContainer(this);
+    }
+
+
+    public void addInternationalizableComponents(TranslationNotifier translationNotifier) {
+        translationNotifier.addInternationalizableComponent(this, "WorkflowList.title");
+        translationNotifier.addInternationalizableComponent(new InternationalizableRequestTable(workflowLogList.getPreference(),
+                                                                                                workflowLogList));
     }
 
 

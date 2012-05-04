@@ -1,5 +1,4 @@
 package net.codjo.workflow.gui.task;
-import net.codjo.workflow.common.organiser.Job;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.SimpleDateFormat;
@@ -9,6 +8,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
+import net.codjo.workflow.common.organiser.Job;
+
+import static net.codjo.mad.gui.i18n.InternationalizationUtil.translate;
 
 public class JobPanel extends JPanel {
     public static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd/MM HH:mm:ss");
@@ -74,35 +76,34 @@ public class JobPanel extends JPanel {
         }
 
         Icon stateIcon = null;
-        String tooltip = null;
+        String tooltipKey = null;
         switch (job.getState()) {
             case DONE:
                 stateIcon = DONE_ICON;
-                tooltip = "Traitement terminé";
+                statusIconLabel.setToolTipText(translate("JobPanel.processDone", configuration.getGuiContext()));
                 break;
             case FAILURE:
                 stateIcon = FAILURE_ICON;
-                tooltip = job.getErrorMessage();
+                statusIconLabel.setToolTipText(job.getErrorMessage());
                 errorLabel.setText(job.getErrorMessage());
                 errorPanel.setVisible(true);
                 break;
             case RUNNING:
                 stateIcon = RUNNING_ICON;
-                tooltip = "Traitement en cours";
+                statusIconLabel.setToolTipText(translate("JobPanel.processRunning", configuration.getGuiContext()));
                 break;
             case REJECTED:
                 stateIcon = REJECTED_ICON;
-                tooltip = "Traitement rejeté";
+                statusIconLabel.setToolTipText(translate("JobPanel.processRejected", configuration.getGuiContext()));
                 break;
             case WAITING:
             case NEW:
                 stateIcon = WAITING_ICON;
-                tooltip = "Traitement en attente";
+                statusIconLabel.setToolTipText(translate("JobPanel.processPending", configuration.getGuiContext()));
                 break;
         }
 
         statusIconLabel.setIcon(stateIcon);
-        statusIconLabel.setToolTipText(tooltip);
 
         Icon jobIcon = configuration.getJobIcon(job.getType());
         if (jobIcon == null) {

@@ -1,8 +1,11 @@
 package net.codjo.workflow.gui.plugin;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import net.codjo.agent.AgentContainer;
 import net.codjo.agent.ContainerConfiguration;
 import net.codjo.agent.util.IdUtil;
-import net.codjo.mad.gui.base.AbstractGuiPlugin;
+import net.codjo.i18n.common.Language;
+import net.codjo.i18n.common.TranslationManager;
 import net.codjo.mad.gui.base.ButtonBuilder;
 import net.codjo.mad.gui.base.GuiConfiguration;
 import net.codjo.mad.gui.i18n.AbstractInternationalizableGuiPlugin;
@@ -11,10 +14,6 @@ import net.codjo.workflow.gui.task.TaskManagerAction;
 import net.codjo.workflow.gui.task.TaskManagerAgent;
 import net.codjo.workflow.gui.task.TaskManagerConfiguration;
 import net.codjo.workflow.gui.task.TaskManagerListModel;
-import net.codjo.i18n.common.TranslationManager;
-import net.codjo.i18n.common.Language;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 public final class WorkflowGuiPlugin extends AbstractInternationalizableGuiPlugin {
     public static final String LOGIN_PARAMETER = "login";
@@ -63,10 +62,13 @@ public final class WorkflowGuiPlugin extends AbstractInternationalizableGuiPlugi
                                         new ConsoleAction(guiConfiguration.getGuiContext()));
 
         configuration.taskManagerConfiguration.setUserLogin(login);
+        configuration.taskManagerConfiguration.setGuiContext(guiConfiguration.getGuiContext());
         guiConfiguration.addToStatusBar(
-              new ButtonBuilder("taskManager",
-                                new TaskManagerAction(configuration.taskManagerConfiguration,
-                                                      taskManagerListModel)));
+              new ButtonBuilder(guiConfiguration.getGuiContext(),
+                                "taskManager",
+                                new TaskManagerAction(configuration.taskManagerConfiguration, taskManagerListModel),
+                                null,
+                                "TaskManagerAction.tooltip"));
     }
 
 

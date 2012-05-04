@@ -1,10 +1,14 @@
 package net.codjo.workflow.gui.plugin;
 import net.codjo.gui.toolkit.combo.ComboBoxPopupWidthMaximizer;
 import net.codjo.gui.toolkit.util.ErrorDialog;
+import net.codjo.i18n.gui.InternationalizableContainer;
+import net.codjo.i18n.gui.TranslationNotifier;
 import net.codjo.mad.client.request.FieldsList;
 import net.codjo.mad.client.request.RequestException;
 import net.codjo.mad.client.request.Result;
 import net.codjo.mad.client.request.Row;
+import net.codjo.mad.gui.framework.GuiContext;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
 import net.codjo.mad.gui.request.RequestTable;
 import net.codjo.mad.gui.request.event.DataSourceAdapter;
 import net.codjo.mad.gui.request.event.DataSourceEvent;
@@ -32,7 +36,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class TableFilterPanel extends JPanel {
+public class TableFilterPanel extends JPanel implements InternationalizableContainer{
     public static final String NULL_FOR_MAD = "null";
     public static final String NULL_FOR_COMBO = "";
     private final JPanel filtersPanel = new JPanel();
@@ -40,28 +44,38 @@ public class TableFilterPanel extends JPanel {
     private final JButton resetButton = new JButton();
     private final Map<String, SortedComboBoxModel> fieldToModel = new HashMap<String, SortedComboBoxModel>();
     private final RequestTable requestTable;
+    private TranslationNotifier translationNotifier;
+
     enum FilterType {
         TEXT,
         DATE;
+
+
     }
-
-
-    public TableFilterPanel(RequestTable requestTable) {
+    public TableFilterPanel(GuiContext context, RequestTable requestTable) {
         this.requestTable = requestTable;
 
         initPanel();
         initApplyButton();
         initResetButton();
         linkTable();
+
+        translationNotifier = InternationalizationUtil.retrieveTranslationNotifier(context);
+        translationNotifier.addInternationalizableContainer(this);
     }
 
 
-    public void addFilter(String name, String value, FilterType filterType, String... defaultValues) {
-        addFilter(name, value, filterType, -1, defaultValues);
+    public void addInternationalizableComponents(TranslationNotifier notifier) {
+        notifier.addInternationalizableComponent(this, "TableFilterPanel.title");
     }
 
 
-    public void addFilter(String name,
+    public void addFilter(String key, String value, FilterType filterType, String... defaultValues) {
+        addFilter(key, value, filterType, -1, defaultValues);
+    }
+
+
+    public void addFilter(String key,
                           String value,
                           FilterType filterType,
                           int preferredWidth,
@@ -75,7 +89,9 @@ public class TableFilterPanel extends JPanel {
 
         constraints.weightx = 0;
         constraints.insets = new Insets(0, 3, 0, 2);
-        panel.add(new JLabel(name), constraints);
+        JLabel filterLabel = new JLabel();
+        translationNotifier.addInternationalizableComponent(filterLabel, key);
+        panel.add(filterLabel, constraints);
 
         constraints.weightx = 1.0;
         constraints.insets = new Insets(0, 2, 0, 7);

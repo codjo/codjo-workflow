@@ -15,10 +15,13 @@ import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.ListModel;
 import javax.swing.Scrollable;
 import javax.swing.SwingUtilities;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
 /**
  *
  */
@@ -30,8 +33,10 @@ public class TaskManagerGui extends JDialog {
     private JButton minimiseButton;
     private JPanel titlePanel;
     private JPanel actionPanel;
+    private JLabel titleLabel;
 
     private static final int MIN_HEIGHT = 200;
+    private TranslationNotifier notifier;
 
 
     public TaskManagerGui(TaskManagerConfiguration configuration, TaskManagerListModel model) {
@@ -43,6 +48,9 @@ public class TaskManagerGui extends JDialog {
                           ListModel waitingJobsModel,
                           ListModel runningJobsModel,
                           ListModel doneJobsModel) {
+
+        notifier = InternationalizationUtil.retrieveTranslationNotifier(configuration.getGuiContext());
+        notifier.addInternationalizableComponent(titleLabel, "TaskManager.title");
 
         setUndecorated(true);
         setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
@@ -59,15 +67,15 @@ public class TaskManagerGui extends JDialog {
 
         jobsPanel.add(new JobList(configuration,
                                   "running", runningJobsModel,
-                                  "Tâches en cours",
+                                  "JobList.runningTasks",
                                   JobPanel.PAUSED_ICON));
         jobsPanel.add(new JobList(configuration,
                                   "waiting", waitingJobsModel,
-                                  "Tâches en attente",
+                                  "JobList.pendingTasks",
                                   JobPanel.WAITING_ICON));
         jobsPanel.add(new JobList(configuration,
                                   "done", doneJobsModel,
-                                  "Tâches terminées",
+                                  "JobList.finishedTasks",
                                   JobPanel.DONE_ICON));
 
         DragWindowListener dragWindowListener = new DragWindowListener();
@@ -86,13 +94,15 @@ public class TaskManagerGui extends JDialog {
     }
 
 
-    public void addToolBarButton(AbstractButton button) {
+    public void addToolBarButton(AbstractButton button, String key) {
         button.setOpaque(false);
         button.setBorderPainted(false);
         button.setBackground(Color.WHITE);
         button.setFocusable(false);
         button.setMargin(new Insets(0, 0, 0, 0));
         actionPanel.add(button);
+
+        notifier.addInternationalizableComponent(button, null, key);
     }
 
 

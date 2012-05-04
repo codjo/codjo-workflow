@@ -139,6 +139,7 @@ public class CommandFileTest extends TestCase {
         }
         catch (NotDeletedException e) {
             // For spike purpose : Retry a new 10 times to delete the folder...
+            Thread.sleep(1000);
             fixture.doTearDown();
         }
     }
