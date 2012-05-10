@@ -4,8 +4,16 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package net.codjo.workflow.gui.wizard;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ListResourceBundle;
+import javax.swing.JFrame;
 import net.codjo.gui.toolkit.GradientPanel;
+import net.codjo.i18n.common.Language;
+import net.codjo.i18n.common.TranslationManager;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
 import net.codjo.workflow.common.message.JobAudit;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.uispec4j.Panel;
 import org.uispec4j.UISpecTestCase;
 /**
@@ -13,6 +21,7 @@ import org.uispec4j.UISpecTestCase;
  */
 public class DefaultJobGuiTest extends UISpecTestCase {
     private static final String TITLE = "Import des données";
+    private static final String TITLE_KEY = "DefaultJobGui.title";
     private DefaultJobGui gui;
     private Panel panel;
 
@@ -77,8 +86,60 @@ public class DefaultJobGuiTest extends UISpecTestCase {
     }
 
 
+    @Override
     protected void setUp() throws Exception {
-        gui = new DefaultJobGui(TITLE);
+        WorkflowGuiContext guiContext = new WorkflowGuiContext();
+        TranslationManager translationManager =
+              InternationalizationUtil.retrieveTranslationManager(guiContext);
+        translationManager.addBundle(new MyFrenchResources(), Language.FR);
+        translationManager.addBundle(new MyEnglishResources(), Language.EN);
+
+        gui = new DefaultJobGui(guiContext, TITLE_KEY);
         panel = new Panel(gui);
+    }
+
+
+    private static class MyFrenchResources extends ListResourceBundle {
+        private static final Object[][] CONTENTS = new Object[][]{
+              {"DefaultJobGui.title", "Import des données"},
+        };
+
+
+        @Override
+        public Object[][] getContents() {
+            return CONTENTS;
+        }
+    }
+
+    private static class MyEnglishResources extends ListResourceBundle {
+        private static final Object[][] CONTENTS = new Object[][]{
+              {"DefaultJobGui.title", "Data Import"},
+        };
+
+
+        @Override
+        public Object[][] getContents() {
+            return CONTENTS;
+        }
+    }
+
+
+    public static void main(String[] args) throws InterruptedException {
+        JFrame frame = new JFrame("Test DefaultJobGuiTest");
+        DefaultJobGui contentPane = new DefaultJobGui(new WorkflowGuiContext(), TITLE_KEY);
+        frame.setContentPane(contentPane);
+        frame.pack();
+        frame.setVisible(true);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                System.exit(0);
+            }
+        });
+        contentPane.displayStart();
+        Thread.sleep(3000);
+        JobAudit jobAudit = new JobAudit();
+        jobAudit.setError(new JobAudit.Anomaly("[message] toto; [process] process", new Throwable("eee")));
+        contentPane.displayStop(jobAudit);
     }
 }

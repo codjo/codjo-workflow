@@ -4,10 +4,6 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package net.codjo.workflow.gui.wizard;
-import net.codjo.gui.toolkit.GradientPanel;
-import net.codjo.gui.toolkit.ShadowBorder;
-import net.codjo.gui.toolkit.util.ErrorDialog;
-import net.codjo.workflow.common.message.JobAudit;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -16,40 +12,67 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SpringLayout;
+import net.codjo.gui.toolkit.GradientPanel;
+import net.codjo.gui.toolkit.ShadowBorder;
+import net.codjo.gui.toolkit.util.ErrorDialog;
+import net.codjo.i18n.common.TranslationManager;
+import net.codjo.i18n.gui.InternationalizableContainer;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.mad.gui.framework.GuiContext;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
+import net.codjo.workflow.common.message.JobAudit;
+
+import static net.codjo.mad.gui.i18n.InternationalizationUtil.translate;
+
 /**
  * Composant graphique représentant un Job dans le wizard.
  *
  * @see FinalStep
  */
-public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui {
+public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui, InternationalizableContainer {
     private static final String UNSTARTED_ICON = "unstarted.png";
     static final Color ERROR_COLOR = new Color(255, 100, 100);
     static final Color WARNING_COLOR = new Color(255, 180, 0);
     static final String DEFAULT_PROGRESS_MESSAGE = "Traitement en cours...";
     static final String FINISHED_PROGRESS_MESSAGE = "Traitement terminé.";
     private JLabel statusIcon = new JLabel();
-    private JLabel progressLabel = new JLabel(DEFAULT_PROGRESS_MESSAGE, JLabel.LEFT);
+    private JLabel progressLabel = new JLabel();
     private JProgressBar progressBar = new JProgressBar();
     private JobAudit jobResult;
-    private final String title;
+    private GuiContext guiContext;
+    private String titleKey;
+    private JLabel titleLabel;
 
 
-    public DefaultJobGui(String title) {
+    public DefaultJobGui(GuiContext guiContext, String titleKey) {
         super(new SpringLayout());
-        this.title = title;
+        this.guiContext = guiContext;
+        this.titleKey = titleKey;
         setStatusIcon(UNSTARTED_ICON);
         buildGui();
+
+        TranslationNotifier translationNotifier = InternationalizationUtil.retrieveTranslationNotifier(guiContext);
+        TranslationManager manager = InternationalizationUtil.retrieveTranslationManager(guiContext);
+
+        if (manager.hasKey(titleKey, translationNotifier.getLanguage())) {
+            translationNotifier.addInternationalizableContainer(this);
+        }
+        else {
+            titleLabel.setText(titleKey);
+        }
+    }
+
+
+    public void addInternationalizableComponents(TranslationNotifier translationNotifier) {
+        translationNotifier.addInternationalizableComponent(titleLabel, titleKey);
     }
 
 
@@ -86,7 +109,11 @@ public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui {
             displayJobAudit(jobAuditResult, warningMessage, "warning.png", WARNING_COLOR, Color.BLUE);
         }
         else {
-            displayJobAudit(null, FINISHED_PROGRESS_MESSAGE, "ok.png", getEndColor(), Color.BLACK);
+            displayJobAudit(null,
+                            translate("DefaultJobGui.finishedProgressMessage", guiContext),
+                            "ok.png",
+                            getEndColor(),
+                            Color.BLACK);
         }
     }
 
@@ -105,10 +132,10 @@ public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui {
         setPreferredSize(new Dimension(350, 90));
         setBackground(getEndColor());
 
-        JLabel label = new AntialiasedJLabel(title);
-        label.setName("title");
-        Font font = label.getFont().deriveFont(Font.ITALIC, 20.0f);
-        label.setFont(font);
+        titleLabel = new AntialiasedJLabel("");
+        titleLabel.setName("title");
+        Font font = titleLabel.getFont().deriveFont(Font.ITALIC, 20.0f);
+        titleLabel.setFont(font);
 
         GradientPanel separator = new GradientPanel();
         separator.setPreferredSize(new Dimension(180, 2));
@@ -117,7 +144,7 @@ public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui {
         JPanel progressPanel = createProgressPanel();
 
         add(statusIcon);
-        add(label);
+        add(titleLabel);
         add(separator);
         add(progressPanel);
 
@@ -125,13 +152,13 @@ public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui {
         layout.putConstraint(SpringLayout.WEST, statusIcon, 5, SpringLayout.WEST, this);
         layout.putConstraint(SpringLayout.NORTH, statusIcon, 5, SpringLayout.NORTH, this);
 
-        layout.putConstraint(SpringLayout.WEST, label, 5, SpringLayout.EAST, statusIcon);
-        layout.putConstraint(SpringLayout.NORTH, label, 5, SpringLayout.NORTH, this);
+        layout.putConstraint(SpringLayout.WEST, titleLabel, 5, SpringLayout.EAST, statusIcon);
+        layout.putConstraint(SpringLayout.NORTH, titleLabel, 5, SpringLayout.NORTH, this);
 
         layout.putConstraint(SpringLayout.WEST, separator, 5, SpringLayout.EAST, statusIcon);
-        layout.putConstraint(SpringLayout.NORTH, separator, 2, SpringLayout.SOUTH, label);
+        layout.putConstraint(SpringLayout.NORTH, separator, 2, SpringLayout.SOUTH, titleLabel);
 
-        layout.putConstraint(SpringLayout.NORTH, progressPanel, 10, SpringLayout.SOUTH, label);
+        layout.putConstraint(SpringLayout.NORTH, progressPanel, 10, SpringLayout.SOUTH, titleLabel);
         layout.putConstraint(SpringLayout.WEST, progressPanel, 5, SpringLayout.EAST, statusIcon);
 
         layout.putConstraint(SpringLayout.EAST, this, 5, SpringLayout.EAST, progressPanel);
@@ -144,6 +171,9 @@ public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui {
         progressLabel.setName("progressLabel");
         progressLabel.setForeground(Color.DARK_GRAY);
 
+        progressLabel.setText(translate("DefaultJobGui.inProgressMessage", guiContext));
+        progressLabel.setHorizontalAlignment(JLabel.LEFT);
+
         progressLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent event) {
@@ -151,7 +181,8 @@ public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui {
                     String errorMessage = jobResult.getErrorMessage();
                     if (errorMessage != null) {
                         ErrorDialog.show(DefaultJobGui.this,
-                                         "Erreur durant '" + title.toLowerCase() + "'",
+                                         translate("DefaultJobGui.errorProcessing", guiContext) + " '"
+                                         + titleLabel.getText().toLowerCase() + "'",
                                          jobResult.getErrorMessage(),
                                          jobResult.getError().getDescription());
                     }
@@ -189,26 +220,6 @@ public class DefaultJobGui extends GradientPanel implements FinalStep.JobGui {
             errorMessage = errorMessage.substring(0, 59) + "...";
         }
         return errorMessage;
-    }
-
-
-    public static void main(String[] args) throws InterruptedException {
-        JFrame frame = new JFrame("Test DefaultJobGuiTest");
-        DefaultJobGui contentPane = new DefaultJobGui("Import des données");
-        frame.setContentPane(contentPane);
-        frame.pack();
-        frame.setVisible(true);
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent event) {
-                System.exit(0);
-            }
-        });
-        contentPane.displayStart();
-        Thread.sleep(3000);
-        JobAudit jobAudit = new JobAudit();
-        jobAudit.setError(new JobAudit.Anomaly("[message] toto; [process] process", new Throwable("eee")));
-        contentPane.displayStop(jobAudit);
     }
 
 

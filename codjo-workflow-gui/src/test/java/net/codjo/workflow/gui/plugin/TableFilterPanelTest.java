@@ -6,6 +6,7 @@ import net.codjo.mad.gui.request.Column;
 import net.codjo.mad.gui.request.Preference;
 import net.codjo.mad.gui.request.RequestTable;
 import net.codjo.security.common.api.UserMock;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import net.codjo.workflow.gui.plugin.TableFilterPanel.FilterType;
 import java.util.Arrays;
 import javax.swing.JComboBox;
@@ -21,12 +22,18 @@ public class TableFilterPanelTest extends UISpecTestCase {
     private Panel panel;
     private Button applyButton;
     private Button resetButton;
+    private DefaultGuiContext guiContext;
 
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
         server.doSetUp();
+
+        guiContext = new WorkflowGuiContext();
+        guiContext.setUser(new UserMock().mockIsAllowedTo(true));
+        guiContext.setSender(new Sender(server.getOperations()));
+
 
         initRequestTable();
         initTableFilterPanel();
@@ -198,9 +205,6 @@ public class TableFilterPanelTest extends UISpecTestCase {
               {"YANN", "blanc", "Autant en emporte le vent", "2006-02-08 12:2:59"},
         });
 
-        DefaultGuiContext guiContext = new DefaultGuiContext();
-        guiContext.setUser(new UserMock().mockIsAllowedTo(true));
-        guiContext.setSender(new Sender(server.getOperations()));
         requestTable = new RequestTable();
         Preference preference = new Preference();
         preference.setColumns(Arrays.asList(new Column("nom", "Nom"),
@@ -213,7 +217,7 @@ public class TableFilterPanelTest extends UISpecTestCase {
 
 
     private void initTableFilterPanel() {
-        tableFilterPanel = new TableFilterPanel(requestTable);
+        tableFilterPanel = new TableFilterPanel(guiContext, requestTable);
         tableFilterPanel.addFilter("Couleur", "couleur", FilterType.TEXT);
         tableFilterPanel.addFilter("Film", "film", FilterType.TEXT);
         panel = new Panel(tableFilterPanel);

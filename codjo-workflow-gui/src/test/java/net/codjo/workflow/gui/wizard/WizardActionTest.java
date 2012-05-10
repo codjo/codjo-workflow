@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.swing.Action;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 /**
  * Classe de test de {@link net.codjo.workflow.gui.wizard.WizardAction}.
  */
@@ -25,11 +26,12 @@ public class WizardActionTest extends GuiAgentActionTestCase {
 
     private class WizardBuilderMock implements WizardBuilder {
         public Wizard createWizard() {
+            WorkflowGuiContext guiContext = new WorkflowGuiContext();
             FinalStep finalStep =
                   new FinalStep("Exporter...", new WizardActionTest.VtomCallerMock(),
-                                new SummaryGuiMock(), new DefaultJobGui(""),
+                                new SummaryGuiMock(), new DefaultJobGui(guiContext, ""),
                                 new FinalStep.JobGuiData[]{
-                                      new FinalStep.JobGuiData(new DefaultJobGui(""),
+                                      new FinalStep.JobGuiData(new DefaultJobGui(guiContext, ""),
                                                                new DefaultRequestTemplateFactory(
                                                                      JobRequestTemplate.matchAll()))
                                 });

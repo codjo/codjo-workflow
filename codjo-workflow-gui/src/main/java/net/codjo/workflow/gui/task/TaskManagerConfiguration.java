@@ -2,12 +2,14 @@ package net.codjo.workflow.gui.task;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.Icon;
+import net.codjo.mad.gui.framework.GuiContext;
 /**
  *
  */
 public class TaskManagerConfiguration {
     private String userLogin;
     private final Map<String, Icon> jobTypeToIcon = new HashMap<String, Icon>();
+    private GuiContext guiContext;
 
 
     public Icon getJobIcon(String jobType) {
@@ -27,5 +29,15 @@ public class TaskManagerConfiguration {
 
     public void setUserLogin(String userLogin) {
         this.userLogin = userLogin;
+    }
+
+
+    public void setGuiContext(GuiContext guiContext) {
+        this.guiContext = guiContext;
+    }
+
+
+    public GuiContext getGuiContext() {
+        return guiContext;
     }
 }

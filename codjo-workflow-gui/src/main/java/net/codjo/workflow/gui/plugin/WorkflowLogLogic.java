@@ -1,6 +1,13 @@
 package net.codjo.workflow.gui.plugin;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import net.codjo.agent.AgentContainer;
 import net.codjo.gui.toolkit.util.ErrorDialog;
+import net.codjo.i18n.gui.TranslationNotifier;
 import net.codjo.mad.client.request.FieldsList;
 import net.codjo.mad.client.request.RequestException;
 import net.codjo.mad.client.request.Result;
@@ -10,12 +17,9 @@ import net.codjo.workflow.common.message.Arguments;
 import net.codjo.workflow.common.message.DateUtil;
 import net.codjo.workflow.common.message.JobRequest;
 import net.codjo.workflow.common.schedule.ScheduleLauncher;
-import java.awt.event.ActionEvent;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+
+import static net.codjo.mad.gui.i18n.InternationalizationUtil.retrieveTranslationNotifier;
+import static net.codjo.mad.gui.i18n.InternationalizationUtil.translate;
 
 class WorkflowLogLogic {
     private WorkflowLogGui gui;
@@ -40,6 +44,9 @@ class WorkflowLogLogic {
         JButton button = toolBar.add(action);
         button.setName(getGui().getTable().getName() + ".PurgeAuditAction");
         button.setText("Purge");
+
+        TranslationNotifier notifier = retrieveTranslationNotifier(context);
+        notifier.addInternationalizableComponent(button, "WorkflowList.purgeButton", null);
     }
 
 
@@ -56,40 +63,44 @@ class WorkflowLogLogic {
 
         public void actionPerformed(ActionEvent event) {
             final String period = JOptionPane.showInputDialog(gui,
-                                                              "Veuillez saisir le nombre de mois à conserver",
-                                                              "Préparation de la purge",
+                                                              translate("WorkflowList.purgeButton.inputMessage",
+                                                                        context),
+                                                              translate("WorkflowList.purgeButton.inputMessage.title",
+                                                                        context),
                                                               JOptionPane.INFORMATION_MESSAGE);
-            if (period != null && !"".equals(period)) {
-                try {
-                    int rowCount = countRows(period);
-                    if (rowCount == 0) {
-                        JOptionPane.showMessageDialog(gui,
-                                                      "Il n'y a aucune ligne à supprimer pour cette période.");
-                    }
-                    else {
-                        int confirm = JOptionPane.showConfirmDialog(gui,
-                                                                    "Vous êtes sur le point de supprimer "
-                                                                    + rowCount
-                                                                    + " lignes.\n"
-                                                                    + "Souhaitez-vous continuer ?",
-                                                                    "Confirmer la purge",
-                                                                    JOptionPane.YES_NO_OPTION);
-                        if (confirm == JOptionPane.YES_OPTION) {
-                            gui.getWaitingPanel().exec(new Runnable() {
-                                public void run() {
-                                    purgeAudit(period);
-                                }
-                            }, new Runnable() {
-                                public void run() {
-                                    reloadGui();
-                                }
-                            });
+            if (period == null || "".equals(period)) {
+                return;
+            }
+            try {
+                int rowCount = countRows(period);
+                if (rowCount == 0) {
+                    JOptionPane.showMessageDialog(gui, translate("WorkflowList.purgeButton.noLineMessage", context));
+                }
+                else {
+                    int confirm =
+                          JOptionPane.showConfirmDialog(gui,
+                                                        rowCount + " " +
+                                                        translate("WorkflowList.purgeButton.confirmationMessage",
+                                                                  context),
+                                                        translate("WorkflowList.purgeButton.confirmationMessage.title",
+                                                                  context),
+                                                        JOptionPane.YES_NO_OPTION);
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        gui.getWaitingPanel().exec(new Runnable() {
+                                                       public void run() {
+                                                           purgeAudit(period);
+                                                       }
+                                                   }, new Runnable() {
+                            public void run() {
+                                reloadGui();
+                            }
                         }
+                        );
                     }
                 }
-                catch (Exception e) {
-                    showError(e);
-                }
+            }
+            catch (Exception e) {
+                showError(e);
             }
         }
 

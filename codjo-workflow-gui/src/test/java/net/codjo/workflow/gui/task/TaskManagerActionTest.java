@@ -3,6 +3,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import javax.swing.JButton;
+import net.codjo.workflow.gui.WorkflowGuiContext;
 import org.uispec4j.Trigger;
 import org.uispec4j.UISpecTestCase;
 import org.uispec4j.Window;
@@ -11,8 +12,14 @@ import org.uispec4j.interception.WindowInterceptor;
  *
  */
 public class TaskManagerActionTest extends UISpecTestCase {
-    private TaskManagerAction taskManagerAction = new TaskManagerAction(
-          new TaskManagerConfiguration(), new TaskManagerListModel(10));
+    private TaskManagerAction taskManagerAction;
+
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        taskManagerAction = new TaskManagerAction(createTaskManagerConfiguration(), new TaskManagerListModel(10));
+    }
 
 
     public void test_constructor() throws Exception {
@@ -22,7 +29,6 @@ public class TaskManagerActionTest extends UISpecTestCase {
 
 
     public void test_actionPerformed() throws Exception {
-
         final JButton button = new JButton("le bouton");
 
         Window window = WindowInterceptor.run(new Trigger() {
@@ -45,5 +51,12 @@ public class TaskManagerActionTest extends UISpecTestCase {
         });
 
         assertSame(taskManagerDialog, window.getAwtComponent());
+    }
+
+
+    private TaskManagerConfiguration createTaskManagerConfiguration() {
+        TaskManagerConfiguration configuration = new TaskManagerConfiguration();
+        configuration.setGuiContext(new WorkflowGuiContext());
+        return configuration;
     }
 }

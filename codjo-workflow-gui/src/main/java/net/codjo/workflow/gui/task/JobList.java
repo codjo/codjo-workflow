@@ -1,5 +1,4 @@
 package net.codjo.workflow.gui.task;
-import net.codjo.workflow.common.organiser.Job;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -11,6 +10,9 @@ import javax.swing.JSeparator;
 import javax.swing.ListModel;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
+import net.codjo.workflow.common.organiser.Job;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.VerticalLayout;
 /**
@@ -37,7 +39,7 @@ public class JobList extends JPanel {
     public JobList(TaskManagerConfiguration configuration,
                    String jobNamePrefix,
                    ListModel jobModel,
-                   String statusTitle,
+                   String jobStatusKey,
                    Icon statusIcon) {
 
         this.configuration = configuration;
@@ -46,9 +48,9 @@ public class JobList extends JPanel {
         jobList.setName(jobNamePrefix);
         jobList.setLayout(new VerticalLayout());
 
-        jobCountLabel.setName(jobNamePrefix+".jobCount");
+        jobCountLabel.setName(jobNamePrefix + ".jobCount");
 
-        jobStatusLabel.setText(statusTitle);
+        jobStatusLabel.setText(jobStatusKey);
         jobStatusLabel.setIcon(statusIcon);
 
         initJobList(jobModel);
@@ -64,6 +66,10 @@ public class JobList extends JPanel {
         setLayout(new BorderLayout());
         add(mainPanel);
         add(new JSeparator(), BorderLayout.SOUTH);
+
+        TranslationNotifier translationNotifier =
+              InternationalizationUtil.retrieveTranslationNotifier(configuration.getGuiContext());
+        translationNotifier.addInternationalizableComponent(jobStatusLabel, jobStatusKey);
     }
 
 

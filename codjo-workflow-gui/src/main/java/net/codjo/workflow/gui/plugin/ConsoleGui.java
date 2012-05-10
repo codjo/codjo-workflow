@@ -4,9 +4,6 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package net.codjo.workflow.gui.plugin;
-import net.codjo.workflow.common.message.Arguments;
-import net.codjo.workflow.common.message.JobAudit;
-import net.codjo.workflow.common.message.JobRequest;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -18,6 +15,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
@@ -30,18 +28,30 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import net.codjo.i18n.gui.InternationalizableContainer;
+import net.codjo.i18n.gui.TranslationNotifier;
+import net.codjo.mad.gui.framework.GuiContext;
+import net.codjo.mad.gui.i18n.InternationalizationUtil;
+import net.codjo.workflow.common.message.Arguments;
+import net.codjo.workflow.common.message.JobAudit;
+import net.codjo.workflow.common.message.JobRequest;
 /**
  * IHM de la Console.
  */
-class ConsoleGui extends JInternalFrame {
+class ConsoleGui extends JInternalFrame implements InternationalizableContainer {
     private JTree requestTree;
     private JTable auditTable;
     private JButton closeButton;
     private JTextArea requestDetail;
     private JComponent content;
     private JTextArea errorArea;
+    private JPanel requestPanel;
+    private JPanel detailRequestPanel;
+    private JPanel auditMessagePanel;
+    private JPanel internalErrorsPanel;
     private RequestDataTreeModel dataTreeModel;
     private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    private AuditTableModel auditTableModel;
 
 
     ConsoleGui() {
@@ -67,8 +77,36 @@ class ConsoleGui extends JInternalFrame {
                 dispose();
             }
         });
+
+        auditTableModel = new AuditTableModel(new RequestData());
+        auditTable.setModel(auditTableModel);
         auditTable.setDefaultRenderer(String.class, new AuditCellRenderer());
         auditTable.setDefaultRenderer(Date.class, new AuditCellRenderer());
+    }
+
+
+    public void init(GuiContext guiContext) {
+        TranslationNotifier translationNotifier = InternationalizationUtil.retrieveTranslationNotifier(guiContext);
+        translationNotifier.addInternationalizableContainer(this);
+    }
+
+
+    public void addInternationalizableComponents(TranslationNotifier translationNotifier) {
+        translationNotifier.addInternationalizableComponent(this, "ConsoleGui.title");
+        translationNotifier.addInternationalizableComponent(closeButton, "ConsoleGui.closeButton", null);
+
+        translationNotifier.addInternationalizableComponent(requestPanel, "ConsoleGui.requestPanel.title");
+        translationNotifier.addInternationalizableComponent(detailRequestPanel, "ConsoleGui.detailRequestPanel.title");
+        translationNotifier.addInternationalizableComponent(auditMessagePanel, "ConsoleGui.auditMessagePanel.title");
+        translationNotifier.addInternationalizableComponent(internalErrorsPanel,
+                                                            "ConsoleGui.internalErrorsPanel.title");
+
+        translationNotifier.addInternationalizableComponent(auditTable, null, new String[]{
+              "ConsoleGui.auditTable.type",
+              "ConsoleGui.auditTable.date",
+              "ConsoleGui.auditTable.argument",
+              "ConsoleGui.auditTable.error"
+        });
     }
 
 
@@ -110,7 +148,7 @@ class ConsoleGui extends JInternalFrame {
         }
         requestDetail.setText(detail.toString());
 
-        auditTable.setModel(new AuditTableModel(requestData));
+        auditTableModel.updateData(requestData);
         auditTable.getColumn(AuditTableModel.TYPE).setMaxWidth(50);
         auditTable.getColumn(AuditTableModel.DATE).setMaxWidth(150);
     }
@@ -338,11 +376,16 @@ class ConsoleGui extends JInternalFrame {
         private static final String[] COLUMN_NAMES = {TYPE, DATE, "Argument", "Erreur"};
         private static final Class[] COLUMN_CLASS =
               {String.class, Date.class, String.class, String.class};
-        private final RequestData requestData;
+        private RequestData requestData;
 
 
         AuditTableModel(RequestData requestData) {
             this.requestData = requestData;
+        }
+
+
+        public void updateData(RequestData data) {
+            this.requestData = data;
         }
 
 

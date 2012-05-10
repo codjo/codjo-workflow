@@ -1,4 +1,5 @@
 net.codjo.workflow.gui.plugin
+	-> net.codjo.i18n.gui
 	-> net.codjo.agent
 	-> net.codjo.agent.util
 	-> net.codjo.gui.toolkit
@@ -23,6 +24,9 @@ net.codjo.workflow.gui.plugin
 	-> net.codjo.workflow.gui.util
 
 net.codjo.workflow.gui.task
+	-> net.codjo.i18n.gui
+	-> net.codjo.mad.gui.framework
+	-> net.codjo.mad.gui.i18n
 	-> net.codjo.agent
 	-> net.codjo.agent.protocol
 	-> net.codjo.workflow.common.organiser
@@ -42,3 +46,6 @@ net.codjo.workflow.gui.wizard
 	-> net.codjo.workflow.common.message
 	-> net.codjo.workflow.common.subscribe
 	-> net.codjo.workflow.gui.util
+	-> net.codjo.mad.gui.i18n
+	-> net.codjo.i18n.common
+	-> net.codjo.i18n.gui

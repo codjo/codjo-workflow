@@ -4,6 +4,7 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package net.codjo.workflow.gui.plugin;
+import net.codjo.mad.gui.framework.GuiContext;
 import net.codjo.workflow.common.message.JobAudit;
 import net.codjo.workflow.common.message.JobEvent;
 import net.codjo.workflow.common.message.JobRequest;
@@ -16,12 +17,13 @@ import javax.swing.JFrame;
  * Logique de la console.
  */
 class ConsoleLogic {
-    private final ConsoleGui gui;
+    final ConsoleGui gui;
     private JobEventHandler eventHandler = new EventHandlerLogic();
 
 
-    ConsoleLogic(ConsoleGui gui) {
+    ConsoleLogic(GuiContext guiContext, ConsoleGui gui) {
         this.gui = gui;
+        gui.init(guiContext);
     }
 
 
@@ -56,44 +58,4 @@ class ConsoleLogic {
     }
 
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Test ConsoleLogic");
-        ConsoleLogic logic = new ConsoleLogic(new ConsoleGui());
-        frame.setContentPane(logic.gui.getContentPane());
-        frame.pack();
-        frame.setVisible(true);
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent event) {
-                System.exit(0);
-            }
-        });
-
-        JobRequest request = new JobRequest();
-        request.setId("job-1");
-        request.setType("import");
-        logic.getEventHandler().receive(new JobEvent(request));
-
-        request = new JobRequest();
-        request.setId("job-2");
-        request.setType("export");
-        logic.getEventHandler().receive(new JobEvent(request));
-
-        JobAudit audit = new JobAudit(JobAudit.Type.PRE);
-        audit.setRequestId("job-1");
-        logic.getEventHandler().receive(new JobEvent(audit));
-
-        audit = new JobAudit(JobAudit.Type.MID);
-        audit.setRequestId("job-1");
-        logic.getEventHandler().receive(new JobEvent(audit));
-
-        audit = new JobAudit(JobAudit.Type.MID);
-        audit.setRequestId("job-1");
-        audit.setErrorMessage("error message");
-        logic.getEventHandler().receive(new JobEvent(audit));
-
-        audit = new JobAudit(JobAudit.Type.POST);
-        audit.setRequestId("job-1");
-        logic.getEventHandler().receive(new JobEvent(audit));
-    }
 }
