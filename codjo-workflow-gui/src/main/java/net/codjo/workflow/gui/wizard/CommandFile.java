@@ -170,6 +170,7 @@ public class CommandFile {
         }
 
 
+        @Override
         public void run() {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
@@ -192,6 +193,7 @@ public class CommandFile {
                     is.close();
                 }
                 catch (IOException e) {
+                    ;
                 }
             }
 
@@ -256,6 +258,7 @@ public class CommandFile {
         }
 
 
+        @Override
         public synchronized void run() {
             try {
                 Thread.sleep(timeout);
