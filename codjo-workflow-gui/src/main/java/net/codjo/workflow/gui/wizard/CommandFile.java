@@ -171,9 +171,9 @@ public class CommandFile {
 
 
         public void run() {
+            InputStreamReader isr = new InputStreamReader(is);
+            BufferedReader br = new BufferedReader(isr);
             try {
-                InputStreamReader isr = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(isr);
                 String line = br.readLine();
                 while (line != null) {
                     message.append(line).append("\n");
@@ -184,6 +184,15 @@ public class CommandFile {
             catch (IOException ioe) {
                 message.append(ioe.toString());
                 LOGGER.error("Error during execution " + message, ioe);
+            }
+            finally {
+                try {
+                    br.close();
+                    isr.close();
+                    is.close();
+                }
+                catch (IOException e) {
+                }
             }
 
             synchronized (lock) {
