@@ -135,6 +135,7 @@ public class CommandFileTest extends TestCase {
     @Override
     protected void tearDown() throws Exception {
         try {
+            file.delete();
             fixture.doTearDown();
         }
         catch (NotDeletedException e) {
