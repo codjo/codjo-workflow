@@ -36,6 +36,7 @@ public class WizardWindowTest extends UISpecTestCase {
 
 
     public void test_isFirstStepDisplayAtFirst() throws Exception {
+        Thread.sleep(10);
         assertEquals(FIRST_STEP, window.findSwingComponent(Step.class).getName());
     }
 
