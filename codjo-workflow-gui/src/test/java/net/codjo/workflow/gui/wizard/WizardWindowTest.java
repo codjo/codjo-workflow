@@ -25,6 +25,7 @@ public class WizardWindowTest extends UISpecTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        super.setUp();
         firstStep = new StepPanelMock(FIRST_STEP);
         finalStep = new StepPanelMock(FINAL_STEP);
         gui = new WizardWindow(new WorkflowGuiContext(),
