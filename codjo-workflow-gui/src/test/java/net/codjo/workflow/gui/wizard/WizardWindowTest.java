@@ -31,12 +31,12 @@ public class WizardWindowTest extends UISpecTestCase {
                                "Assistant diffusion",
                                new WizardBuilderMock().createWizard(),
                                new ImageIcon(getClass().getResource("started.png")));
+        gui.pack();
         window = new Window(gui);
     }
 
 
     public void test_isFirstStepDisplayAtFirst() throws Exception {
-        Thread.sleep(100);
         assertEquals(FIRST_STEP, window.findSwingComponent(Step.class).getName());
     }
 
