@@ -102,7 +102,8 @@ public class WorkflowLogLogicTest extends UISpecTestCase {
               })
               .run();
 
-        Thread.sleep(300);
+        // Wait untill the purge is launched
+        Thread.sleep(100);
         String expectedExpression = "acceptNewAgent\\(purge-audit-.*\\), purge-audit-.*\\.start\\(\\)";
         boolean matches = logString.getContent().matches(expectedExpression);
 
