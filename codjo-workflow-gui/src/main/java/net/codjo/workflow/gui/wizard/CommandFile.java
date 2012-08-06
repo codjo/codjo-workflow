@@ -196,7 +196,6 @@ public class CommandFile {
             synchronized (lock) {
                 finished = true;
                 lock.notifyAll();
-                LOGGER.info("finished notifyAll");
             }
         }
 
@@ -274,7 +273,7 @@ public class CommandFile {
                 ;
             }
             catch (Throwable e) {
-                LOGGER.debug("Process (" + processName + ")timeout internal failure", e);
+                LOGGER.error("Process (" + processName + ")timeout internal failure", e);
             }
         }
     }
