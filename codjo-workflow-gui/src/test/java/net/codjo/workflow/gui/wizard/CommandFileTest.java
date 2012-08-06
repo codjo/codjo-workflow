@@ -159,6 +159,7 @@ public class CommandFileTest extends TestCase {
         assertEquals(errorMessages, commandFile.getErrorMessage());
         assertNotNull(commandFile.getProcessMessage());
         assertTrue(commandFile.getProcessMessage().contains(processMessage));
+        LOGGER.info("ProcessMessage:"+commandFile.getProcessMessage());
     }
 
 
