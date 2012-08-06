@@ -62,14 +62,14 @@ public class CommandFile {
         setProcessMessage(null);
 
         try {
-            LOGGER.info("Execution de (timeout=" + timeout + "): " + cmdFile + " "
+            LOGGER.debug("Execution de (timeout=" + timeout + "): " + cmdFile + " "
                          + (arguments == null ? "" : Arrays.asList(arguments).toString()));
 
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(createCommandLine(arguments), null, workingDirectory);
 
             if (timeout > 0) {
-                LOGGER.info("CREATE KILLER " + cmdFile);
+                LOGGER.debug("CREATE KILLER " + cmdFile);
                 createTimeoutKiller(cmdFile.getName(), proc);
             }
 
@@ -174,13 +174,13 @@ public class CommandFile {
                 String line = br.readLine();
                 while (line != null) {
                     message.append(line).append("\n");
-                    LOGGER.info("line read > " + line + "<");
+                    LOGGER.debug("line read > " + line + "<");
                     line = br.readLine();
                 }
             }
             catch (IOException ioe) {
                 message.append(ioe.toString());
-                LOGGER.info("Error during execution " + message, ioe);
+                LOGGER.error("Error during execution " + message, ioe);
             }
             finally {
                 try {
@@ -208,7 +208,7 @@ public class CommandFile {
                         lock.wait();
                     }
                     catch (InterruptedException e) {
-                        LOGGER.info("", e);
+                        LOGGER.warn("", e);
                     }
                 }
             }
@@ -260,21 +260,21 @@ public class CommandFile {
             try {
                 Thread.sleep(timeout);
                 try {
-                    LOGGER.info("Process (" + processName + ")timeout tombé : Verification du process");
+                    LOGGER.debug("Process (" + processName + ")timeout tombé : Verification du process");
                     process.exitValue();
-                    LOGGER.info("Process (" + processName + ")timeout tombé : Process déja terminé");
+                    LOGGER.debug("Process (" + processName + ")timeout tombé : Process déja terminé");
                 }
                 catch (IllegalThreadStateException e) {
-                    LOGGER.info("Process (" + processName + ")timeout tombé : Destruction du process");
+                    LOGGER.debug("Process (" + processName + ")timeout tombé : Destruction du process");
                     process.destroy();
-                    LOGGER.info("Process (" + processName + ")timeout tombé : Process détruit");
+                    LOGGER.debug("Process (" + processName + ")timeout tombé : Process détruit");
                 }
             }
             catch (InterruptedException e) {
                 ;
             }
             catch (Throwable e) {
-                LOGGER.info("Process (" + processName + ")timeout internal failure", e);
+                LOGGER.debug("Process (" + processName + ")timeout internal failure", e);
             }
         }
     }
