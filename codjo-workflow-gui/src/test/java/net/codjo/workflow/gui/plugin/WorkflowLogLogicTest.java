@@ -6,7 +6,6 @@ import net.codjo.mad.gui.framework.Sender;
 import net.codjo.security.common.api.UserMock;
 import net.codjo.test.common.LogString;
 import net.codjo.workflow.gui.WorkflowGuiContext;
-import org.apache.log4j.Logger;
 import org.uispec4j.ComboBox;
 import org.uispec4j.Table;
 import org.uispec4j.Trigger;
@@ -19,7 +18,6 @@ public class WorkflowLogLogicTest extends UISpecTestCase {
     private MadServerFixture server = new MadServerFixture();
     private LogString logString = new LogString();
     private WorkflowLogGui gui;
-    private static final Logger LOGGER = Logger.getLogger(WorkflowLogLogicTest.class);
 
 
     @Override
@@ -104,6 +102,7 @@ public class WorkflowLogLogicTest extends UISpecTestCase {
               })
               .run();
 
+        Thread.sleep(300);
         String expectedExpression = "acceptNewAgent\\(purge-audit-.*\\), purge-audit-.*\\.start\\(\\)";
         boolean matches = logString.getContent().matches(expectedExpression);
 
