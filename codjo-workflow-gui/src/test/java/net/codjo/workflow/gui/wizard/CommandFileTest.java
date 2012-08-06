@@ -142,14 +142,14 @@ public class CommandFileTest extends TestCase {
         try {
             file.delete();
             fixture.doTearDown();
-            LOGGER.info("tearDown");
+            LOGGER.info("tearDown\n");
 
         }
         catch (NotDeletedException e) {
             // For spike purpose : Retry a new 10 times to delete the folder...
             Thread.sleep(1000);
             fixture.doTearDown();
-            LOGGER.info("tearDown catch");
+            LOGGER.info("tearDown catch\n");
 
         }
     }
