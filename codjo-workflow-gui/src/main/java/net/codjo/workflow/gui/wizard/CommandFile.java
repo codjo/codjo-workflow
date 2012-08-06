@@ -62,18 +62,14 @@ public class CommandFile {
         setProcessMessage(null);
 
         try {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Execution de (timeout=" + timeout + "): " + cmdFile + " "
-                             + (arguments == null ? "" : Arrays.asList(arguments).toString()));
-            }
+            LOGGER.info("Execution de (timeout=" + timeout + "): " + cmdFile + " "
+                         + (arguments == null ? "" : Arrays.asList(arguments).toString()));
 
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(createCommandLine(arguments), null, workingDirectory);
 
             if (timeout > 0) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("CREATE KILLER " + cmdFile);
-                }
+                LOGGER.info("CREATE KILLER " + cmdFile);
                 createTimeoutKiller(cmdFile.getName(), proc);
             }
 
@@ -178,13 +174,13 @@ public class CommandFile {
                 String line = br.readLine();
                 while (line != null) {
                     message.append(line).append("\n");
-                    LOGGER.debug("line read > " + line + "<");
+                    LOGGER.info("line read > " + line + "<");
                     line = br.readLine();
                 }
             }
             catch (IOException ioe) {
                 message.append(ioe.toString());
-                LOGGER.error("Error during execution " + message, ioe);
+                LOGGER.info("Error during execution " + message, ioe);
             }
             finally {
                 try {
@@ -200,6 +196,7 @@ public class CommandFile {
             synchronized (lock) {
                 finished = true;
                 lock.notifyAll();
+                LOGGER.info("finished notifyAll");
             }
         }
 
@@ -211,7 +208,7 @@ public class CommandFile {
                         lock.wait();
                     }
                     catch (InterruptedException e) {
-                        LOGGER.warn("", e);
+                        LOGGER.info("", e);
                     }
                 }
             }
@@ -263,29 +260,21 @@ public class CommandFile {
             try {
                 Thread.sleep(timeout);
                 try {
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName + ")timeout tombé : Verification du process");
-                    }
+                    LOGGER.info("Process (" + processName + ")timeout tombé : Verification du process");
                     process.exitValue();
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName + ")timeout tombé : Process déja terminé");
-                    }
+                    LOGGER.info("Process (" + processName + ")timeout tombé : Process déja terminé");
                 }
                 catch (IllegalThreadStateException e) {
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName + ")timeout tombé : Destruction du process");
-                    }
+                    LOGGER.info("Process (" + processName + ")timeout tombé : Destruction du process");
                     process.destroy();
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName + ")timeout tombé : Process détruit");
-                    }
+                    LOGGER.info("Process (" + processName + ")timeout tombé : Process détruit");
                 }
             }
             catch (InterruptedException e) {
                 ;
             }
             catch (Throwable e) {
-                LOGGER.error("Process (" + processName + ")timeout internal failure", e);
+                LOGGER.info("Process (" + processName + ")timeout internal failure", e);
             }
         }
     }
