@@ -15,8 +15,9 @@
     </parent>
     <dependencies>
         <dependency>
-            <groupId>hsqldb</groupId>
+            <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
+			<classifier>${envClassifier}</classifier>			
             <scope>test</scope>
         </dependency>
         <dependency>
