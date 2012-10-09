@@ -25,12 +25,14 @@ public class WizardWindowTest extends UISpecTestCase {
 
     @Override
     protected void setUp() throws Exception {
+        super.setUp();
         firstStep = new StepPanelMock(FIRST_STEP);
         finalStep = new StepPanelMock(FINAL_STEP);
         gui = new WizardWindow(new WorkflowGuiContext(),
                                "Assistant diffusion",
                                new WizardBuilderMock().createWizard(),
                                new ImageIcon(getClass().getResource("started.png")));
+        gui.pack();
         window = new Window(gui);
     }
 

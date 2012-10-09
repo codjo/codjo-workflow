@@ -2,7 +2,6 @@ package net.codjo.workflow.gui.plugin;
 import net.codjo.agent.AgentContainer;
 import net.codjo.agent.AgentContainerMock;
 import net.codjo.mad.client.request.MadServerFixture;
-import net.codjo.mad.gui.MadGuiContext;
 import net.codjo.mad.gui.framework.Sender;
 import net.codjo.security.common.api.UserMock;
 import net.codjo.test.common.LogString;
@@ -103,8 +102,12 @@ public class WorkflowLogLogicTest extends UISpecTestCase {
               })
               .run();
 
-        assertTrue(logString.getContent().matches(
-              "acceptNewAgent\\(purge-audit-.*\\), purge-audit-.*\\.start\\(\\)"));
+        // Wait untill the purge is launched
+        Thread.sleep(100);
+        String expectedExpression = "acceptNewAgent\\(purge-audit-.*\\), purge-audit-.*\\.start\\(\\)";
+        boolean matches = logString.getContent().matches(expectedExpression);
+
+        assertTrue("bad content:" + logString.getContent() + "\nexpected:" + expectedExpression, matches);
     }
 
 
