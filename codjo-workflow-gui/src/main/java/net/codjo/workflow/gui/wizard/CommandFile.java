@@ -62,18 +62,14 @@ public class CommandFile {
         setProcessMessage(null);
 
         try {
-            if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Execution de (timeout=" + timeout + "): " + cmdFile + " "
-                             + (arguments == null ? "" : Arrays.asList(arguments).toString()));
-            }
+            LOGGER.debug("Execution de (timeout=" + timeout + "): " + cmdFile + " "
+                         + (arguments == null ? "" : Arrays.asList(arguments).toString()));
 
             Runtime rt = Runtime.getRuntime();
             Process proc = rt.exec(createCommandLine(arguments), null, workingDirectory);
 
             if (timeout > 0) {
-                if (LOGGER.isDebugEnabled()) {
-                    LOGGER.debug("CREATE KILLER " + cmdFile);
-                }
+                LOGGER.debug("CREATE KILLER " + cmdFile);
                 createTimeoutKiller(cmdFile.getName(), proc);
             }
 
@@ -263,22 +259,14 @@ public class CommandFile {
             try {
                 Thread.sleep(timeout);
                 try {
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName + ")timeout tombé : Verification du process");
-                    }
+                    LOGGER.debug("Process (" + processName + ")timeout tombé : Verification du process");
                     process.exitValue();
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName + ")timeout tombé : Process déja terminé");
-                    }
+                    LOGGER.debug("Process (" + processName + ")timeout tombé : Process déja terminé");
                 }
                 catch (IllegalThreadStateException e) {
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName + ")timeout tombé : Destruction du process");
-                    }
+                    LOGGER.debug("Process (" + processName + ")timeout tombé : Destruction du process");
                     process.destroy();
-                    if (LOGGER.isDebugEnabled()) {
-                        LOGGER.debug("Process (" + processName + ")timeout tombé : Process détruit");
-                    }
+                    LOGGER.debug("Process (" + processName + ")timeout tombé : Process détruit");
                 }
             }
             catch (InterruptedException e) {

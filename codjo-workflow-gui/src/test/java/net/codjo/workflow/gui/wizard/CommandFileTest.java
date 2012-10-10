@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import net.codjo.test.common.Directory.NotDeletedException;
 import net.codjo.test.common.fixture.DirectoryFixture;
 import net.codjo.util.file.FileUtil;
+import org.apache.log4j.Logger;
 
 import static net.codjo.test.common.PathUtil.findTargetDirectory;
 /**
@@ -23,6 +24,9 @@ public class CommandFileTest extends TestCase {
           new DirectoryFixture(findTargetDirectory(CommandFileTest.class) + "/CommandFileTestTEMPO");
     private File file = new File(fixture, "mycmd.cmd");
     private CommandFile commandFile;
+
+    private static final Logger LOGGER = Logger.getLogger(CommandFileTest.class);
+
 
 
     public void test_execute_withoutArgument() throws Exception {
@@ -128,6 +132,7 @@ public class CommandFileTest extends TestCase {
 
     @Override
     protected void setUp() throws Exception {
+        LOGGER.info("setUp");
         fixture.doSetUp();
     }
 
@@ -135,12 +140,17 @@ public class CommandFileTest extends TestCase {
     @Override
     protected void tearDown() throws Exception {
         try {
+            file.delete();
             fixture.doTearDown();
+            LOGGER.info("tearDown\n");
+
         }
         catch (NotDeletedException e) {
             // For spike purpose : Retry a new 10 times to delete the folder...
             Thread.sleep(1000);
             fixture.doTearDown();
+            LOGGER.info("tearDown catch\n");
+
         }
     }
 
@@ -149,6 +159,7 @@ public class CommandFileTest extends TestCase {
         assertEquals(errorMessages, commandFile.getErrorMessage());
         assertNotNull(commandFile.getProcessMessage());
         assertTrue(commandFile.getProcessMessage().contains(processMessage));
+        LOGGER.info("ProcessMessage:"+commandFile.getProcessMessage());
     }
 
 

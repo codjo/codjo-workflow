@@ -90,11 +90,12 @@ class WorkflowLogLogic {
                                                        public void run() {
                                                            purgeAudit(period);
                                                        }
-                                                   }, new Runnable() {
-                            public void run() {
-                                reloadGui();
-                            }
-                        }
+                                                   },
+                                                   new Runnable() {
+                                                       public void run() {
+                                                           reloadGui();
+                                                       }
+                                                   }
                         );
                     }
                 }
