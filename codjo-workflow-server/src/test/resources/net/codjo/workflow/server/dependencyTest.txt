@@ -43,8 +43,15 @@ net.codjo.workflow.server.audit
 net.codjo.workflow.server.handler
 	-> net.codjo.agent
 	-> net.codjo.agent.test
+	-> net.codjo.database.api
+	-> net.codjo.database.common.api
+	-> net.codjo.database.common.api.structure
+	-> net.codjo.mad.server
+	-> net.codjo.mad.server.handler
 	-> net.codjo.mad.server.handler.sql
 	-> net.codjo.mad.server.plugin
+	-> net.codjo.mad.server.util
+	-> net.codjo.security.server.api
 	-> net.codjo.test.common
 	-> net.codjo.workflow.common.message
 	-> net.codjo.workflow.common.util

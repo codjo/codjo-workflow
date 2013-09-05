@@ -28,7 +28,7 @@
                     <name>preAuditStatus</name>
                     <name>postAuditStatus</name>
                 </attributes>
-                <query factory="net.codjo.workflow.server.handler.SelectAllWorkflowLogQueryFactory"/>
+                <query factory="net.codjo.workflow.server.handler.SelectAllWorkflowLogStatementFactory" statement="true"/>
             </handler-sql>
             <handler-select id="selectWorkflowLogById" type="By_Primary-Key"/>
             <handler-requetor id="allWorkflow"/>
