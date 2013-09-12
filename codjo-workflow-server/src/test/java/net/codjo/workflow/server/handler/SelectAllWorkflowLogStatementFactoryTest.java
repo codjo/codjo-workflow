@@ -32,6 +32,7 @@ public class SelectAllWorkflowLogStatementFactoryTest {
     @Before
     public void setup() throws Exception {
         jdbc.doSetUp();
+        jdbc.advanced().dropAllObjects();
 
         jdbc.create(SqlTable.table("AP_WORKFLOW_LOG"),
                     " ID varchar(50) not null, "
