@@ -1,26 +1,22 @@
 package net.codjo.workflow.server.handler;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Map;
+import net.codjo.database.api.query.PreparedQuery;
 import net.codjo.mad.server.handler.HandlerException;
+import net.codjo.mad.server.handler.sql.QueryBuilder;
+import net.codjo.mad.server.handler.sql.QueryParameterFiller;
 import net.codjo.mad.server.handler.sql.SqlHandler;
-import net.codjo.mad.server.handler.sql.StatementBuilder;
-import org.apache.log4j.Logger;
 /**
  *
  */
-public class SelectAllWorkflowLogStatementFactory implements StatementBuilder {
-    private static final Logger LOG = Logger.getLogger(SelectAllWorkflowLogStatementFactory.class);
-
+public class SelectAllWorkflowLogQueryFactory implements QueryBuilder, QueryParameterFiller {
     private int indexParameter = 1;
 
 
-    public PreparedStatement buildStatement(Map<String, String> args, SqlHandler sqlHandler) throws HandlerException {
-        PreparedStatement preparedStatement = null;
-
+    public String buildQuery(Map<String, String> args, SqlHandler sqlHandler) throws HandlerException {
         StringBuilder query = new StringBuilder()
               .append("select ")
               .append("ID, ")
@@ -37,28 +33,19 @@ public class SelectAllWorkflowLogStatementFactory implements StatementBuilder {
         conditionAlreadyAdded = addCondition(query, args, "initiatorLogin", conditionAlreadyAdded);
         conditionAlreadyAdded = addCondition(query, args, "discriminent", conditionAlreadyAdded);
         conditionAlreadyAdded = addCondition(query, args, "preAuditStatus", conditionAlreadyAdded);
-        conditionAlreadyAdded = addCondition(query, args, "postAuditStatus", conditionAlreadyAdded);
-        if (conditionAlreadyAdded) {
-            query.append(" ");
-        }
+        addCondition(query, args, "postAuditStatus", conditionAlreadyAdded);
         query.append("order by REQUEST_DATE DESC");
+        return query.toString();
+    }
 
-        try {
-            preparedStatement = sqlHandler.getConnection().prepareStatement(query.toString());
 
-            setConditionParameter(preparedStatement, args, "requestType");
-            setDateConditionParameter(preparedStatement, args, "requestDate");
-            setConditionParameter(preparedStatement, args, "initiatorLogin");
-            setConditionParameter(preparedStatement, args, "discriminent");
-            setConditionParameter(preparedStatement, args, "preAuditStatus");
-            setConditionParameter(preparedStatement, args, "postAuditStatus");
-        }
-        catch (SQLException e) {
-            LOG.error("Unable to execute query " + query);
-        }
-        
-        LOG.debug(query.toString());
-        return preparedStatement;
+    public void fillQuery(PreparedQuery statement, Map<String, String> arguments) throws SQLException {
+        setConditionParameter(statement, arguments, "requestType");
+        setDateConditionParameter(statement, arguments, "requestDate");
+        setConditionParameter(statement, arguments, "initiatorLogin");
+        setConditionParameter(statement, arguments, "discriminent");
+        setConditionParameter(statement, arguments, "preAuditStatus");
+        setConditionParameter(statement, arguments, "postAuditStatus");
     }
 
 
@@ -69,7 +56,7 @@ public class SelectAllWorkflowLogStatementFactory implements StatementBuilder {
         String value = args.get(key);
         if (value != null && !"null".equals(value)) {
             if (conditionAlreadyAdded) {
-                script.append(" and ");
+                script.append("and ");
             }
             else {
                 script.append("where ");
@@ -88,19 +75,19 @@ public class SelectAllWorkflowLogStatementFactory implements StatementBuilder {
         String value = args.get(key);
         if (value != null && !"null".equals(value)) {
             if (conditionAlreadyAdded) {
-                script.append(" and ");
+                script.append("and ");
             }
             else {
                 script.append("where ");
             }
-            script.append(toSqlName(key)).append(" >= ?  and ").append(toSqlName(key)).append(" < ? ");
+            script.append(toSqlName(key)).append(" >= ? and ").append(toSqlName(key)).append(" < ? ");
             return true;
         }
         return conditionAlreadyAdded;
     }
 
 
-    protected void setConditionParameter(PreparedStatement statement,
+    protected void setConditionParameter(PreparedQuery statement,
                                          Map<String, String> args,
                                          String key) throws SQLException {
         String value = args.get(key);
@@ -110,7 +97,7 @@ public class SelectAllWorkflowLogStatementFactory implements StatementBuilder {
     }
 
 
-    protected void setDateConditionParameter(PreparedStatement statement,
+    protected void setDateConditionParameter(PreparedQuery statement,
                                              Map<String, String> args,
                                              String key) throws SQLException {
         String value = args.get(key);
