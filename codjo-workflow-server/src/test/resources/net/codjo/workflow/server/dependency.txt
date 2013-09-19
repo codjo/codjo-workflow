@@ -27,6 +27,7 @@ net.codjo.workflow.server.aspect
 net.codjo.workflow.server.handler
     -> net.codjo.agent
 	-> net.codjo.agent.util
+	-> net.codjo.database.api.query
 	-> net.codjo.mad.server.handler
 	-> net.codjo.mad.server.handler.aspect
 	-> net.codjo.mad.server.handler.sql
