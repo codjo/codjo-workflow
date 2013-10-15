@@ -280,5 +280,16 @@ public class JobAudit implements Serializable {
             exception.printStackTrace(new PrintWriter(result));
             return result.toString();
         }
+
+
+        @Override
+        public String toString() {
+            final StringBuilder sb = new StringBuilder();
+            sb.append("Anomaly");
+            sb.append("{").append(message).append('\'');
+            sb.append(", description='").append(description).append('\'');
+            sb.append('}');
+            return sb.toString();
+        }
     }
 }
