@@ -59,7 +59,7 @@ public class ScheduleLauncher {
                     throw commandError;
                 }
                 if (!isWorkDone()) {
-                    throw new TimeoutBatchException();
+                    throw new TimeoutBatchException("workflow", workflowConfiguration.getDefaultTimeout());
                 }
                 break;
             case ASYNCHRONOUS:
