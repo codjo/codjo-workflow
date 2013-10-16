@@ -11,7 +11,7 @@
     <parent>
         <groupId>net.codjo.workflow</groupId>
         <artifactId>codjo-workflow</artifactId>
-        <version>1.82</version>
+        <version>1.83-SNAPSHOT</version>
     </parent>
     <dependencies>
         <dependency>
